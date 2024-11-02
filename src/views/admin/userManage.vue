@@ -80,7 +80,8 @@
             </el-row>
 
             <!-- 商品列表数据 -->
-            <el-table stripe :data="tableData"
+            <el-table v-loading="loading" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading"
+                element-loading-background="rgba(0, 0, 0, 0.8)" stripe :data="tableData"
                 style="position:fixed; left:30px;top:160px; font-size: medium; opacity:0.9">
                 <el-table-column prop="username" label="用户名" width="150">
                 </el-table-column>
@@ -246,7 +247,7 @@ export default {
             startTime: null,
             endTime: null,
 
-            //修改用户
+            //用户
             user: {
                 id: '',
                 username: '',
@@ -258,6 +259,8 @@ export default {
                 email: '',
                 image: ''
             },
+
+            loading: true,
 
             //数据校验
             rules: {
@@ -283,11 +286,15 @@ export default {
         };
     },
 
-    mounted() {
+    beforeMount() {
         //页面渲染完成后分页查询获取数据
         this.pageNo = 1
         this.pageSize = 9
         this.page()
+    },
+
+    mounted(){
+        this.loading = false;
     },
 
     methods: {

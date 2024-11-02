@@ -128,10 +128,6 @@ export default {
                             localStorage.setItem('token', response.data.token)
                             localStorage.setItem('id', response.data.id)
                             this.$router.push({ name: 'homepage' });
-                            this.$message({
-                                type: 'success',
-                                message: '登陆成功!'
-                            })
                         } else if (response.code === 0) {
                             this.$message({
                                 type: 'error',
@@ -158,10 +154,6 @@ export default {
                             localStorage.setItem('token', response.data.token)
                             localStorage.setItem('id', response.data.id)
                             this.$router.push({ name: 'usermanage' });
-                            this.$message({
-                                type: 'success',
-                                message: '登陆成功!'
-                            })
                         } else if (response.code === 0) {
                             this.$message({
                                 type: 'error',

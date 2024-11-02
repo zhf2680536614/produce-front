@@ -13,6 +13,8 @@
                 <el-col :span="4">
 
                     <el-select v-model="category" placeholder="请选择分类">
+                        <el-option label="全部" value="">
+                        </el-option>
                         <el-option v-for="itme in categorys" :key="itme.id" :label="itme.name" :value="itme.id">
                         </el-option>
                     </el-select>
@@ -90,7 +92,8 @@
             </el-row>
 
             <!-- 商品列表数据 -->
-            <el-table stripe :data="tableData"
+            <el-table v-loading="loading" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading"
+                element-loading-background="rgba(0, 0, 0, 0.8)" stripe :data="tableData"
                 style="position:fixed; left:30px;top:160px; font-size: medium;opacity:0.9;">
                 <el-table-column prop="name" label="名称" width="190">
                 </el-table-column>
@@ -122,30 +125,68 @@
                 <!-- 详细 -->
                 <el-table-column label="详细" width="100">
                     <template slot-scope="scope">
+
                         <el-popover placement="right" width="600" trigger="click">
                             <div class="popover">
-                                <el-divider content-position="left"><span>名称</span></el-divider>
-                                <span>{{ scope.row.name }}</span>
-                                <el-divider content-position="left"><span>分类</span></el-divider>
-                                <span>
-                                    {{ processCategory(scope.row.category) }}
-                                </span>
-                                <el-divider content-position="left"><span>产地</span></el-divider>
-                                <span>{{ scope.row.origin }}</span>
-                                <el-divider content-position="left"><span>图片</span></el-divider>
-                                <span>
-                                    <div>
-                                        <img :src="scope.row.image" width="300" height="auto" />
-                                    </div>
-                                </span>
-                                <el-divider content-position="left"><span>产品描述</span></el-divider>
-                                <span>{{ scope.row.description }}</span>
-                                <el-divider content-position="left"><span>生长环境</span></el-divider>
-                                <span>{{ scope.row.growthCycle }}</span>
-                                <el-divider content-position="left"><span>生长习性</span></el-divider>
-                                <span>{{ scope.row.shelfLife }}</span>
-                                <el-divider content-position="left"><span>生长周期</span></el-divider>
-                                <span>{{ scope.row.growthTime }}</span>
+                                <el-descriptions class="margin-top" title="产品详细" :column="1" :size="size" border>
+                                    <el-descriptions-item>
+                                        <template slot="label">
+                                            <i class="el-icon-user"></i>
+                                            名称
+                                        </template>
+                                        {{ scope.row.name }}
+                                    </el-descriptions-item>
+                                    <el-descriptions-item>
+                                        <template slot="label">
+                                            <i class="el-icon-mobile-phone"></i>
+                                            分类
+                                        </template>
+                                        {{ processCategory(scope.row.category) }}
+                                    </el-descriptions-item>
+                                    <el-descriptions-item>
+                                        <template slot="label">
+                                            <i class="el-icon-location-outline"></i>
+                                            产地
+                                        </template>
+                                        {{ scope.row.origin }}
+                                    </el-descriptions-item>
+                                    <el-descriptions-item>
+                                        <template slot="label">
+                                            <i class="el-icon-tickets"></i>
+                                            图片
+                                        </template>
+                                        <img :src="scope.row.image" style="width:200px;height: 200px;" />
+                                    </el-descriptions-item>
+                                    <el-descriptions-item>
+                                        <template slot="label">
+                                            <i class="el-icon-office-building"></i>
+                                            产品描述
+                                        </template>
+                                        {{ scope.row.description }}
+                                    </el-descriptions-item>
+                                    <el-descriptions-item>
+                                        <template slot="label">
+                                            <i class="el-icon-office-building"></i>
+                                            生长环境
+                                        </template>
+                                        {{ scope.row.growthCycle }}
+                                    </el-descriptions-item>
+
+                                    <el-descriptions-item>
+                                        <template slot="label">
+                                            <i class="el-icon-office-building"></i>
+                                            成长习性
+                                        </template>
+                                        {{ scope.row.shelfLife }}
+                                    </el-descriptions-item>
+                                    <el-descriptions-item>
+                                        <template slot="label">
+                                            <i class="el-icon-office-building"></i>
+                                            生长周期
+                                        </template>
+                                        {{ scope.row.growthTime }}
+                                    </el-descriptions-item>
+                                </el-descriptions>
                             </div>
                             <el-button slot="reference" type="text" icon="el-icon-more"></el-button>
                         </el-popover>
@@ -298,6 +339,8 @@ export default {
                 shelfLife: ''
             },
 
+            loading: true,
+
             //数据校验
             rules: {
                 name: [
@@ -324,21 +367,25 @@ export default {
                     { required: true, message: '请输入生长周期', trigger: 'blur' },
                     { min: 1, max: 16, message: '长度在 1 到 16 个字符', trigger: 'blur' }
                 ],
-
             },
 
             id: ''
         };
     },
 
-    mounted() {
+    beforeMount() {
         this.pageNo = 1
         this.pageSize = 9
         this.page()
         this.getCategory()
     },
 
+    mounted() {
+        this.loading = false;
+    },
+
     methods: {
+
         //转换分类
         processCategory(number) {
             for (var i = 0; i < this.categorys.length; i++) {
@@ -420,7 +467,7 @@ export default {
             )
         },
 
-        //根据id查询用户
+        //根据id查询产品
         selectById(id) {
             getByIdProduces(id).then(
                 data => {

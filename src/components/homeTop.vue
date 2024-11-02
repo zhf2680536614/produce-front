@@ -1,45 +1,43 @@
 <template>
     <div>
-        <el-header>
-            <img class="logo" src="../assets/logo.png" width="50" height="50" />
-            <nav id="centernav">
-                <span class="routerspan">
-                    <router-link to="/home/homepage">商城首页</router-link></span>
-                <span class="routerspan">
-                    <router-link to="/home/showpage">产品展示</router-link></span>
-                <span class="routerspan">
-                    <router-link to="/home/transmarket">交易市场</router-link></span>
-                <span class="routerspan">
-                    <router-link to="/home/todaynews">今日要闻</router-link></span>
-                <span class="routerspan">
-                    <router-link to="/home/recordstrans">交易信息</router-link></span>
-                <span class="routerspan">
-                    <router-link to="/home/about">关于我们</router-link></span>
-            </nav>
-            <nav id="rightnav">
 
-                <el-popover placement="right" width="600" trigger="click">
-                    <div class="popover">
-                        <span>用户名</span>
-                        <el-divider content-position="left"><span>用户名</span></el-divider>
-                        <span>头像</span>
-                        <el-divider content-position="left"><span>头像</span></el-divider>
-                        <span>详细介绍</span>
-                        <el-divider content-position="left"><span>详细介绍</span></el-divider>
-                        <span>电话号码</span>
-                        <el-divider content-position="left"><span>电话号码</span></el-divider>
-                        <span>收货地址</span>
-                        <el-divider content-position="left"><span>收货地址</span></el-divider>
-                    </div>
-                    <el-button slot="reference" type="primary" icon="el-icon-user-solid" class="person">个人中心</el-button>
-                </el-popover>
-                <span class="login">
-                    <router-link to="/" class="loginExit">重新登陆</router-link>
-                </span>
+        <img class="logo" src="../assets/logo.png" width="50" height="50" />
+        <nav id="centernav">
+            <span class="routerspan">
+                <router-link to="/home/homepage">商城首页</router-link></span>
+            <span class="routerspan">
+                <router-link to="/home/showpage">产品展示</router-link></span>
+            <span class="routerspan">
+                <router-link to="/home/transmarket">交易市场</router-link></span>
+            <span class="routerspan">
+                <router-link to="/home/todaynews">今日要闻</router-link></span>
+            <span class="routerspan">
+                <router-link to="/home/recordstrans">交易信息</router-link></span>
+            <span class="routerspan">
+                <router-link to="/home/about">关于我们</router-link></span>
+        </nav>
 
-            </nav>
-        </el-header>
+
+        <el-row class="block-col-2">
+            <el-col :span="12">
+                <el-dropdown>
+                    <span class="el-dropdown-link" style="font-size:19px; font-weight: 100;">
+                        更多操作<i class="el-icon-arrow-down el-icon--right"></i>
+                    </span>
+                    <el-dropdown-menu slot="dropdown">
+                        <el-dropdown-item icon="el-icon-user"><router-link to="/"
+                                class="loginExit">个人中心</router-link></el-dropdown-item>
+                        <el-dropdown-item icon="el-icon-refresh"><router-link to="/"
+                                class="loginExit">重新登陆</router-link></el-dropdown-item>
+                        <el-dropdown-item icon="el-icon-circle-plus-outline"><router-link to="/"
+                                class="loginExit">注册</router-link></el-dropdown-item>
+                    </el-dropdown-menu>
+                </el-dropdown>
+            </el-col>
+        </el-row>
     </div>
+
+
 </template>
 
 <script>
@@ -51,7 +49,7 @@ export default {
     },
     data() {
         return {
-
+            drawer: false,
         }
     },
     methods: {
@@ -61,36 +59,43 @@ export default {
 </script>
 
 <style scoped>
-a.loginExit {
-    color: black;
+.el-dropdown-link {
+    cursor: pointer;
+    color: #409EFF;
+}
+
+.el-icon-arrow-down {
+    font-size: 12px;
+}
+
+.demonstration {
+    display: block;
+    color: #8492a6;
+    font-size: 14px;
+    margin-bottom: 20px;
 }
 
 #centernav {
-    background-color: rgba(252, 254, 255, 0.9);
+    background-color: rgba(234, 248, 255, 0.9);
     border-radius: 8px;
-    position: fixed;
-    left: 400px;
-    top: -5px;
+    position: absolute;
+    left: 380px;
+    top: 10px;
     height: 0px;
-    padding-bottom: -10px;
-    padding-top: 10px;
-    margin-top: 28px;
+    width: 800px;
     z-index: 100;
+    padding-top: 10px;
 }
 
-#rightnav {
-    justify-content: center;
-    background-color: rgba(252, 254, 255, 0.9);
-    border-radius: 8px;
-    position: fixed;
-    left: 1330px;
-    top: -5px;
+.block-col-2 {
+    position: absolute;
+    left: 1480px;
+    top: 20px;
     margin-right: 40px;
-    height: 18px;
-    padding-top: 5px;
-    padding-bottom: 20px;
-    margin-top: 28px;
     z-index: 100;
+    width: 200px;
+    padding-top: 0px;
+    padding-bottom: 40px;
 }
 
 button.person {
@@ -103,7 +108,6 @@ button.person {
 .routerspan {
     margin-left: 30px;
     margin-right: 30px;
-    margin-top: 10px;
 }
 
 a {
@@ -114,11 +118,10 @@ a {
 }
 
 .logo {
-    margin-top: 10px;
     border-radius: 50%;
-    position: fixed;
-    left: 20px;
-    top: 5px;
+    position: absolute;
+    left: 10px;
+    top: 10px;
     z-index: 10;
 }
 </style>

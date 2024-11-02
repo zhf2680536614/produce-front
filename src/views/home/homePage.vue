@@ -2,15 +2,14 @@
 <template>
 
     <div>
-        <home-top />
         <div class="trapezoid">
-            <h1 style="position: fixed; left:90px;top:130px; font-size: 150px;" id="hh1">
+            <h1 style="position: fixed; left:90px;top:100px; font-size: 150px;" id="hh1">
                 Welcome
             </h1>
-            <h1 style="position: fixed; left:90px;top:330px;font-size: 70px;" id="hh2">
+            <h1 style="position: fixed; left:90px;top:300px;font-size: 70px;" id="hh2">
                 WEB极客·农产品交易系统
             </h1>
-            <h1 style="position: fixed; left:90px;top:490px;font-size: 40px;" id="hh3">
+            <h1 style="position: fixed; left:90px;top:430px;font-size: 40px;" id="hh3">
                 ------绿色农产汇聚处 健康生活新起点
             </h1>
         </div>
@@ -40,10 +39,10 @@
 </template>
 
 <script>
-import homeTop from '@/components/homeTop.vue';
+
 export default {
     components: {
-        homeTop
+        
     },
     name: 'homePage',
     methods: {

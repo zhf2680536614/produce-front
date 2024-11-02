@@ -87,3 +87,23 @@ export const updateProduces = async(produces:any)=>{
       
   }
 }
+
+// 查询所有产品
+export const queryAll = async()=>{
+  try{
+      const response  = await http.get('/user/produces/all')
+      return response.data
+  }catch(error){
+      
+  }
+}
+
+// 用户根据id查询产品
+export const getByIdProducesUser = async(id:number)=>{
+  try{
+      const response  = await http.get(`/user/produces/${id}`)
+      return response.data
+  }catch(error){
+      
+  }
+}

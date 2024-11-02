@@ -50,7 +50,9 @@
             </el-row>
 
             <!-- 商品列表数据 -->
-            <el-table stripe :data="tableData" style="position:fixed; left:30px;top:160px; font-size: medium;opacity:0.9;">
+            <el-table v-loading="loading" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading"
+                element-loading-background="rgba(0, 0, 0, 0.8)" stripe :data="tableData"
+                style="position:fixed; left:30px;top:160px; font-size: medium;opacity:0.9;">
                 <el-table-column prop="name" label="名称" width="300">
                 </el-table-column>
                 <el-table-column prop="status" label="分类状态" width="300">
@@ -163,6 +165,8 @@ export default {
             startTime: null,
             endTime: null,
 
+            loading: true,
+
             //修改用户
             category: {
                 id: '',
@@ -184,11 +188,15 @@ export default {
         };
     },
 
-    mounted() {
+    beforeMount() {
         //页面渲染完成后分页查询获取数据
         this.pageNo = 1
         this.pageSize = 11
         this.page()
+    },
+
+    mounted(){
+        this.loading = false;
     },
 
     methods: {
@@ -221,7 +229,7 @@ export default {
 
                     } else if (response.code === 0) {
                         this.category.status === 1 ? (this.category.status = '启用') : (this.category.status = '禁用')
-                        
+
                         this.$message({
                             showClose: true,
                             message: response.msg,
@@ -295,6 +303,7 @@ export default {
                 .then(response => {
                     this.total = response.data.total
                     this.tableData = response.data.list
+                    this.loading = false
                     this.startTime = ''
                     this.endTime = ''
                 })
@@ -324,7 +333,7 @@ export default {
                                 type: 'success',
                                 message: '删除成功!'
                             });
-                        }else if(response.code == 0){
+                        } else if (response.code == 0) {
                             this.$message({
                                 type: 'error',
                                 message: response.msg

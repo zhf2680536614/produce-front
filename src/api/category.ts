@@ -81,3 +81,12 @@ export const updatecategory = async (category: any) => {
     return response.data;
   } catch (error) {}
 };
+
+
+// 用户查询所有分类
+export const queryCategoryUser = async () => {
+  try {
+    const response = await http.get(`/user/category/queryCategory`);
+    return response.data;
+  } catch (error) {}
+};
