@@ -124,17 +124,25 @@ export default {
                 if (valid) {
                     loginUser(this.user).then(response => {
                         //处理响应结果
-                        if (response.code === 1) {
-                            localStorage.setItem('token', response.data.token)
-                            localStorage.setItem('id', response.data.id)
-                            this.$router.push({ name: 'homepage' });
-                        } else if (response.code === 0) {
+                        if (response) {
+                            if (response.code === 1) {
+                                localStorage.setItem('token', response.data.token)
+                                localStorage.setItem('id', response.data.id)
+                                this.$router.push({ name: 'homepage' });
+                            } else if (response.code === 0) {
+                                this.$message({
+                                    type: 'error',
+                                    message: response.msg
+                                })
+                            }
+                        } else {
                             this.$message({
                                 type: 'error',
-                                message: response.msg
+                                message: "后台服务未启动"
                             })
                         }
                     })
+
                 } else {
                     this.$message({
                         type: 'error',
@@ -150,14 +158,21 @@ export default {
                 if (valid) {
                     loginAdmin(this.admin).then(response => {
                         //处理响应结果
-                        if (response.code === 1) {
-                            localStorage.setItem('token', response.data.token)
-                            localStorage.setItem('id', response.data.id)
-                            this.$router.push({ name: 'usermanage' });
-                        } else if (response.code === 0) {
+                        if (response) {
+                            if (response.code === 1) {
+                                localStorage.setItem('token', response.data.token)
+                                localStorage.setItem('id', response.data.id)
+                                this.$router.push({ name: 'usermanage' });
+                            } else if (response.code === 0) {
+                                this.$message({
+                                    type: 'error',
+                                    message: response.msg
+                                })
+                            }
+                        } else {
                             this.$message({
                                 type: 'error',
-                                message: response.msg
+                                message: "后台服务未启动"
                             })
                         }
                     })
@@ -299,7 +314,7 @@ h3 {
     position: fixed;
     left: 840px;
     top: 600px;
-    background-color: rgba(214, 236, 255,0.6);
+    background-color: rgba(214, 236, 255, 0.6);
     box-shadow: 5px 5px 3px rgba(120, 187, 255, 0.7);
     width: 200px;
     height: 80px;
@@ -310,7 +325,7 @@ h3 {
     position: fixed;
     left: 560px;
     top: 600px;
-    background-color: rgba(214, 236, 255,0.6);
+    background-color: rgba(214, 236, 255, 0.6);
     box-shadow: -5px 5px 3px rgba(120, 187, 255, 0.7);
     width: 200px;
     height: 80px;

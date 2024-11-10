@@ -44,16 +44,16 @@
             <el-skeleton style="" :loading="loading" animated :count="3">
                 <template>
                     <el-card :body-style="{ padding: '0px', marginBottom: '1px' }" v-for="item in lists" :key="item.id"
-                        style="display:inline-block;margin:10px;width:350px;height:400px;">
-                        <img :src="item.image" class="image multi-content" style="width:350px;height:300px;" />
+                        style="display:inline-block;margin:10px;width:350px;height:450px;">
+                        <img :src="item.image" class="image multi-content" style="width:350px;height:350px;" />
                         <div style="padding: 14px;">
                             <el-tag style="position:relative;left:-120px;">{{ processCategory(item.category) }}</el-tag>
                             <span style="position:relative;left:-50px;font-weight: 100;font-size:larger">{{ item.name
                                 }}</span>
                             <div class="bottom card-header">
                                 <br>
-                                <el-popover placement="right" width="400" trigger="click">
-                                    <el-descriptions class="margin-top" title="产品详细" :column="1" :size="size" border>
+                                <el-popover placement="right" width="900" trigger="click">
+                                    <el-descriptions class="margin-top" title="产品详细" :column="1" border>
 
                                         <el-descriptions-item>
                                             <template slot="label">
@@ -121,10 +121,7 @@
                     </el-card>
                 </template>
             </el-skeleton>
-
         </div>
-
-
     </div>
 </template>
 
@@ -149,8 +146,6 @@ export default {
             tabPosition: 'left',
 
             loading: true,
-
-            currentDate: '2021-06-01',
 
             lists: [],
 
@@ -352,9 +347,6 @@ export default {
     transform-origin: 50% 100%;
     box-shadow: 0 15px 50px rgba(0, 0, 0, 0.25);
     animation: image 0.8s linear;
-}
-
-.container:hover .card1 {
     transform: rotate(calc(var(--i)*5deg)) translate(calc(var(--i)*110px), -50px);
     box-shadow: 0 15px 50px rgba(0, 0, 0, .25);
     color: rgba(0, 0, 0, 0.25);

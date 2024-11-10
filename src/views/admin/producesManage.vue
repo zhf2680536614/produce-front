@@ -593,6 +593,19 @@ export default {
             this.$refs[formName].resetFields();
         },
 
+        handleAvatarSuccess(res) {
+            this.produces.image = res.data;
+        },
+        
+        //上传图片时校验
+        beforeAvatarUpload(file) {
+            const isLt2M = file.size / 1024 / 1024 < 2;
+
+            if (!isLt2M) {
+                this.$message.error('上传头像图片大小不能超过 2MB!');
+            }
+            return isLt2M;
+        }
     }
 }
 </script>

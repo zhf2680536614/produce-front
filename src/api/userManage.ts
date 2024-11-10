@@ -85,3 +85,43 @@ export const updateUser = async(user:any)=>{
       
   }
 }
+
+// 用户端根据id查询用户
+export const getByIdUserUser = async(id:number)=>{
+  try{
+      const response  = await http.get(`/user/user/${id}`)
+      return response.data
+  }catch(error){
+      
+  }
+}
+
+// 用户端修改用户
+export const updateUserUser = async(user:any)=>{
+  try{
+      const response  = await http.put(`/user/user/update`,user)
+      return response.data
+  }catch(error){
+      
+  }
+}
+
+// 用户端修改用户收货地址
+export const updateUserAddress = async(user:any)=>{
+  try{
+      const response  = await http.put(`/user/address/update`,user)
+      return response.data
+  }catch(error){
+      
+  }
+}
+
+// 用户端删除用户收货地址
+export const deleteUserAddress = async(id:any)=>{
+  try{
+      const response  = await http.delete(`/user/address/${id}`)
+      return response.data
+  }catch(error){
+      
+  }
+}

@@ -480,9 +480,8 @@ export default {
             this.$refs[formName].resetFields();
         },
 
-        handleAvatarSuccess(res, file) {
-            this.imageUrl = URL.createObjectURL(file.raw);
-            console.log(this.imageUrl);
+        handleAvatarSuccess(res) {
+            this.user.image = res.data;
         },
 
         //上传图片时校验
