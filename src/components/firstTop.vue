@@ -3,8 +3,8 @@
         <el-header style="border-radius: 5px;">
             <img class="logo" src="../assets/logo.png" width="50" height="50" />
 
-            <el-h3 style="position:fixed;
-            top:20px;
+            <h3 style="position:fixed;
+            top:-10px;
             left:570px;
             font-size:30px;
             font-weight: 500px;
@@ -14,12 +14,12 @@
             padding-left:60px;
             padding-right: 60px;
             padding-top:2px;
-            padding-bottom: 2px;">WEB极客·农产品交易系统管理端</el-h3>
+            padding-bottom: 2px;">WEB极客·农产品交易系统管理端</h3>
 
             <span style="position:fixed;
             left:1250px;
             top:25px;">
-                <el-statistic ref="statistic" @finish="hilarity" format="HH:mm:ss" :value="deadline4" title="距离明日："
+                <el-statistic ref="statistic" format="HH:mm:ss" :value="deadline4" title="距离明日："
                     time-indices>
                 </el-statistic>
             </span>
@@ -33,8 +33,8 @@
             </span>
         </el-header>
 
-        <nav style="position: fixed; left:100px;top:6px;">
-            <router-link to="/admin/controllermanage">控制台</router-link>|
+        <nav style="position: fixed; left:100px;top:6px; z-index:999;">
+            <router-link to="/admin/controllermanage">仪表盘</router-link>|
             <router-link to="/admin/usermanage">用户管理</router-link>|
             <router-link to="/admin/producesmanage">产品管理</router-link>|
             <router-link to="/admin/categorymanage">分类管理</router-link>|

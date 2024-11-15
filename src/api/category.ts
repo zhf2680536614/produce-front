@@ -17,7 +17,7 @@ export const createCategory = async (ruleForm: any) => {
   } catch (error) {}
 };
 
-// 产品管理分页查询
+// 分类管理分页查询
 export const pageQuery = async (
   pageNo: number,
   pageSize: number,
@@ -58,7 +58,7 @@ export const pageQuery = async (
   } catch (error) {}
 };
 
-// 产品管理删除产品
+// 分类管理删除分类
 export const deleteCategory = async (id: number) => {
   try {
     const response = await http.delete(`/admin/category/${id}`);
@@ -66,7 +66,7 @@ export const deleteCategory = async (id: number) => {
   } catch (error) {}
 };
 
-// 产品管理根据id查询产品
+// 分类管理根据id查询分类
 export const getByIdCategory = async (id: number) => {
   try {
     const response = await http.get(`/admin/category/${id}`);
@@ -74,7 +74,7 @@ export const getByIdCategory = async (id: number) => {
   } catch (error) {}
 };
 
-// 产品管理修改产品
+// 分类管理修改分类
 export const updatecategory = async (category: any) => {
   try {
     const response = await http.put(`/admin/category/update`, category);

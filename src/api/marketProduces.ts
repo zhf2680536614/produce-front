@@ -93,7 +93,81 @@ export const updateUserOrdersCancel = async (orders: any) => {
 // 用户查询所有上架产品
 export const queryProducesPlus = async () => {
   try {
-    const response = await http.get('/user/producesPlus/all');
+    const response = await http.get("/user/producesPlus/all");
     return response.data;
   } catch (error) {}
 };
+
+// 用户端确认购买
+export const updateUserOrdersConfirmPlus = async (orders: any) => {
+  try {
+    const response = await http.put(`/user/producesPlus/confirm`, orders);
+    return response.data;
+  } catch (error) {}
+};
+
+// 用户端上架产品分页查询
+export const pageQueryMarket = async (
+  id: "",
+  pageNo: number,
+  pageSize: number,
+  name: string,
+  status: string,
+  startCreateTime: string,
+  endCreateTime: string
+) => {
+  const baseUrl = "/user/marketProduces/page";
+
+  try {
+    const queryParams = new URLSearchParams();
+    queryParams.append("pageNo", String(pageNo));
+    queryParams.append("pageSize", String(pageSize));
+    if (id != null && id != "") {
+      queryParams.append("id", id);
+    }
+    if (name != null && name != "") {
+      queryParams.append("name", name);
+    }
+    if (status != null && status != "") {
+      queryParams.append("status", status);
+    }
+    if (
+      startCreateTime != null &&
+      startCreateTime != "" &&
+      endCreateTime != null &&
+      endCreateTime != ""
+    ) {
+      const response = await http.get(
+        `${baseUrl}?${
+          queryParams.toString() +
+          "&startCreateTime=" +
+          startCreateTime +
+          "&endCreateTime=" +
+          endCreateTime
+        }`
+      );
+      return response.data;
+    }
+
+    const response = await http.get(`${baseUrl}?${queryParams.toString()}`);
+    return response.data;
+  } catch (error) {}
+};
+
+// 用户管理修改上架产品
+export const updateMarketProduces = async (marketProduces: any) => {
+  try {
+    const response = await http.put(`/user/marketProduces/update`, marketProduces);
+    return response.data;
+  } catch (error) {}
+};
+
+// 用户端删除上架产品
+export const deleteMarketProduces = async(id:any)=>{
+  try{
+      const response  = await http.delete(`/user/marketProduces/${id}`)
+      return response.data
+  }catch(error){
+      
+  }
+}

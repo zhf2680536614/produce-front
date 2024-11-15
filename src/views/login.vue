@@ -162,7 +162,7 @@ export default {
                             if (response.code === 1) {
                                 localStorage.setItem('token', response.data.token)
                                 localStorage.setItem('id', response.data.id)
-                                this.$router.push({ name: 'usermanage' });
+                                this.$router.push({ name: 'controllermanage' });
                             } else if (response.code === 0) {
                                 this.$message({
                                     type: 'error',

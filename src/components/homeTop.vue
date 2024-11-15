@@ -85,7 +85,7 @@
                                                 收货地址
                                             </template>
 
-                                            <div v-for="item in user.address" :key="item">
+                                            <div v-for="item in user.address" :key="item.id">
                                                 <el-tag>Num : {{ item.number }}</el-tag>
                                                 <el-input v-model="item.consigneeName"></el-input>
                                                 <el-input v-model="item.consigneePhoneNumber"></el-input>

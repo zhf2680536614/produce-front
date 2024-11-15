@@ -15,27 +15,20 @@
         </div>
         <hr style="width: 100%" class="hr">
 
-        <!-- 产品销量排名 -->
-        <span id="top10">TOP10</span>
+        <!-- 分类销量排名 -->
+        <span id="top10">TOP10</span><br><br>
         <div id="main" style="width: 100%;height:500px;"></div>
 
         <!-- 产品秒杀 -->
         <hr style="width: 100%" class="hr">
         <span id="span2">产品秒杀</span><br><br>
         <div>
-
             <el-card shadow="hover" style="width: 100%;">
-                <span style="font-size:20px;">🎉🎉🎉🎉🎉商品降价🎉🎉🎉🎉🎉</span><br><br>
-                <div style="width: 100%; display: inline-block;" v-if="wait">
-                    <span style="font-size:22px;">抢购即将开始,秒杀专区全场8折,敬请期待吧</span><br><br>
-                    <span style="font-size:20px;">{{ minutesPlus }}:{{
-                        secondsPlus }}</span>
-                </div>
-                <div style="width: 100%; display: inline-block; " v-if="start">
-                    <span style="font-size:22px; position:relative;left:180px;">抢购开始！开始拼手速吧</span><br><br>
-                    <span style="font-size:20px; position:relative;left:360px;">{{ minutesPlus }}:{{
-                        secondsPlus }}:{{ millisecondsPlus
-                        }}</span>
+                <span style="font-size:24px;">🎉🎉🎉🎉🎉商品降价🎉🎉🎉🎉🎉</span><br><br>
+                <div style="width: 100%; display: inline-block;">
+                    <span style="font-size:22px;">特价产品实时更新,全场8折,开始拼手速吧！</span><br><br>
+                    <span style="font-size:24px;">Seconds:{{
+                        secondsPlus1 }}</span>
                 </div>
             </el-card>
         </div>
@@ -44,20 +37,197 @@
             <el-skeleton :loading="loading" animated :count="3">
                 <template>
                     <el-card :body-style="{ padding: '0px', marginBottom: '1px' }" v-for="item in listsPlus"
-                        :key="item.name" style="display:inline-block;margin:10px;width:340px;height:440px;">
+                        :key="item.id" style="display:inline-block;margin:10px;width:340px;height:440px;">
                         <img :src="item.image" class="image multi-content" style="width:340px;height:340px;" />
                         <div style="padding: 14px;">
                             <span style="position:relative;left:60px;top:0px;">{{ item.name }}</span>
-                            <el-tag style="position:relative;left:-110px;top:-10px;"><span
+                            <el-tag style="position:relative;left:-100px;top:-10px;"><span
                                     style="text-decoration: line-through;font-size: 18px;">原价: {{ item.unitPrice
                                     }}</span></el-tag>
-                            <el-tag type="success" style="position:relative;left:-170px;top:40px;"><span
+                            <el-tag type="success" style="position:relative;left:-160px;top:40px;"><span
                                     style="font-size: 18px;">折扣价:
                                     {{ Number(item.unitPrice)
                                         * 0.8
                                     }}</span></el-tag>
                             <div class="bottom card-header">
-                                <el-button type="text" class="button">操作按钮</el-button>
+                                <el-popover placement="right" width="600" trigger="click">
+                                    <el-descriptions class="margin-top" title="产品详细" :column="1" border>
+                                        <el-descriptions-item>
+                                            <template slot="label">
+                                                <i class="el-icon-user"></i>
+                                                名称
+                                            </template>
+                                            {{ marketProduces.name }}
+                                        </el-descriptions-item>
+                                        <el-descriptions-item>
+                                            <template slot="label">
+                                                <i class="el-icon-mobile-phone"></i>
+                                                分类
+                                            </template>
+                                            {{ marketProduces.category }}
+                                        </el-descriptions-item>
+                                        <el-descriptions-item>
+                                            <template slot="label">
+                                                <i class="el-icon-location-outline"></i>
+                                                产地
+                                            </template>
+                                            {{ marketProduces.origin }}
+                                        </el-descriptions-item>
+                                        <el-descriptions-item>
+                                            <template slot="label">
+                                                <i class="el-icon-office-building"></i>
+                                                商家
+                                            </template>
+                                            {{ marketProduces.username }}
+                                        </el-descriptions-item>
+                                        <el-descriptions-item>
+                                            <template slot="label">
+                                                <i class="el-icon-office-building"></i>
+                                                单价
+                                            </template>
+                                            {{ marketProduces.unitPrice * 0.8 }}
+                                        </el-descriptions-item>
+                                        <el-descriptions-item>
+                                            <template slot="label">
+                                                <i class="el-icon-office-building"></i>
+                                                库存(kg)
+                                            </template>
+                                            {{ marketProduces.weight }}
+                                        </el-descriptions-item>
+                                        <el-descriptions-item>
+                                            <template slot="label">
+                                                <i class="el-icon-tickets"></i>
+                                                图片
+                                            </template>
+                                            <img :src="marketProduces.image" alt="" style="width: 200px; height:200px;">
+                                        </el-descriptions-item>
+                                        <el-descriptions-item>
+                                            <template slot="label">
+                                                <i class="el-icon-office-building"></i>
+                                                产品描述
+                                            </template>
+                                            {{ marketProduces.description }}
+                                        </el-descriptions-item>
+                                    </el-descriptions><br>
+                                    <hr><br>
+                                    <div style="font-size:16px;font-weight: 700;">
+                                        购买产品
+                                    </div><br>
+                                    <div>请选择产品重量(kg)</div><br>
+                                    <el-input-number v-model="weight" :precision="2" :step="1.0" :min="0.1"
+                                        :max="marketProduces.weight"></el-input-number><br><br>
+                                    <el-button type="primary" @click="purchasePlus" class="button">购买</el-button>
+                                    <el-dialog title="确认订单" :visible.sync="dialogTableVisible3" append-to-body>
+
+                                        <span
+                                            style="font-size:22px; position:relative;left:180px;">请及时确认订单，15分钟后将自动取消订单</span><br><br>
+                                        <span style="font-size:24px; position:relative;left:360px;">{{ minutes }}:{{
+                                            seconds }}</span>
+                                        <el-descriptions class="margin-top" title="订单详细" :column="1" border>
+                                            <el-descriptions-item>
+                                                <template slot="label">
+                                                    <i class="el-icon-user"></i>
+                                                    订单号
+                                                </template>
+                                                {{ orders.orderNumber }}
+                                            </el-descriptions-item>
+                                            <el-descriptions-item>
+                                                <template slot="label">
+                                                    <i class="el-icon-mobile-phone"></i>
+                                                    商家名称
+                                                </template>
+                                                {{ orders.merchantName }}
+                                            </el-descriptions-item>
+                                            <el-descriptions-item>
+                                                <template slot="label">
+                                                    <i class="el-icon-location-outline"></i>
+                                                    收货人姓名
+                                                </template>
+                                                {{ orders.consigneeName }}
+                                            </el-descriptions-item>
+                                            <el-descriptions-item>
+                                                <template slot="label">
+                                                    <i class="el-icon-office-building"></i>
+                                                    收货地址
+                                                </template>
+                                                {{ orders.addressBookName }}
+                                            </el-descriptions-item>
+                                            <el-descriptions-item>
+                                                <template slot="label">
+                                                    <i class="el-icon-office-building"></i>
+                                                    收货人电话号码
+                                                </template>
+                                                {{ orders.phoneNumber }}
+                                            </el-descriptions-item>
+                                            <el-descriptions-item>
+                                                <template slot="label">
+                                                    <i class="el-icon-office-building"></i>
+                                                    产品名称
+                                                </template>
+                                                {{ ordersDetails.produceName }}
+                                            </el-descriptions-item>
+                                            <el-descriptions-item>
+                                                <template slot="label">
+                                                    <i class="el-icon-office-building"></i>
+                                                    产品图片
+                                                </template>
+                                                <img :src="ordersDetails.image" style="width:100px;height:100px;">
+                                            </el-descriptions-item>
+                                            <el-descriptions-item>
+                                                <template slot="label">
+                                                    <i class="el-icon-office-building"></i>
+                                                    重量(kg)
+                                                </template>
+                                                {{ ordersDetails.produceWeight }}
+                                            </el-descriptions-item>
+                                            <el-descriptions-item>
+                                                <template slot="label">
+                                                    <i class="el-icon-office-building"></i>
+                                                    单价
+                                                </template>
+                                                {{ ordersDetails.unitPrice * 0.8 }}
+                                            </el-descriptions-item>
+                                            <el-descriptions-item>
+                                                <template slot="label">
+                                                    <i class="el-icon-office-building"></i>
+                                                    总价
+                                                </template>
+                                                {{ ordersDetails.amount }}
+                                            </el-descriptions-item>
+                                        </el-descriptions>
+                                        <span>备注</span>
+                                        <el-input type="textarea" v-model="orders.remark"></el-input>
+                                        <br>
+                                        <el-popover placement="left" width="300" trigger="click">
+                                            <div v-for="item in user.address" :key="item.id">
+                                                <el-tag>Num : {{ item.number }}</el-tag><br>
+                                                <hr>
+                                                <span>收货人姓名:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{
+                                                    item.consigneeName }}</span><br>
+                                                <hr>
+                                                <span>电话号码:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{
+                                                    item.consigneePhoneNumber }}</span><br>
+                                                <hr>
+                                                <span>收获地址:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{
+                                                    item.location }}</span>
+                                                <hr>
+                                                <br>
+
+                                                <el-button type="text"
+                                                    @click="updateAddress(item.id, item.location, item.consigneeName, item.consigneePhoneNumber)">选择该地址</el-button>
+                                            </div>
+                                            <el-button slot="reference" type="text" class="button">修改收货地址</el-button>
+                                        </el-popover>
+                                        <br>
+                                        <hr>
+                                        <br>
+                                        <el-button type="primary" class="button"
+                                            @click="confirmPurchasePlus(id)">确认购买</el-button>
+                                        <el-button type="text" class="button" @click="cancelPurchase">取消订单</el-button>
+                                    </el-dialog>
+                                    <el-button slot="reference" type="text" class="button"
+                                        @click="selectById(item.id)">抢购</el-button>
+                                </el-popover>
                             </div>
                         </div>
                     </el-card>
@@ -110,10 +280,9 @@
                             <el-button type="primary" class="button" @click="purchaseAll">全部结算</el-button>
                             <el-dialog title="确认订单" :visible.sync="dialogTableVisible2" append-to-body>
                                 <span
-                                    style="font-size:22px; position:relative;left:180px;">请及时确认订单，倒计时结束将自动取消订单</span><br><br>
-                                <span style="font-size:20px; position:relative;left:360px;">{{ minutes }}:{{
-                                    seconds }}:{{ milliseconds
-                                    }}</span>
+                                    style="font-size:22px; position:relative;left:180px;">请及时确认订单，15分钟后将自动取消订单</span><br><br>
+                                <span style="font-size:24px; position:relative;left:360px;">{{ minutes }}:{{
+                                    seconds }}</span>
                                 <div v-for="item in ordersDetailsShopping" :key="item.id">
                                     <el-descriptions class="margin-top" title="订单详细" :column="2" border>
                                         <el-descriptions-item>
@@ -143,6 +312,13 @@
                                                 总价
                                             </template>
                                             {{ item.amount }}
+                                        </el-descriptions-item>
+                                        <el-descriptions-item>
+                                            <template slot="label">
+                                                <i class="el-icon-office-building"></i>
+                                                产品图片
+                                            </template>
+                                            <img :src="item.image" style="width:100px;height:100px;">
                                         </el-descriptions-item>
                                     </el-descriptions>
                                     <br>
@@ -244,10 +420,9 @@
                                         <el-button type="text" @click="open(item.id)">删除</el-button>
                                         <el-dialog title="确认订单" :visible.sync="dialogTableVisible1" append-to-body>
                                             <span
-                                                style="font-size:22px; position:relative;left:180px;">请及时确认订单，倒计时结束将自动取消订单</span><br><br>
-                                            <span style="font-size:20px; position:relative;left:360px;">{{ minutes }}:{{
-                                                seconds }}:{{ milliseconds
-                                                }}</span>
+                                                style="font-size:22px; position:relative;left:180px;">请及时确认订单，15分钟后将自动取消订单</span><br><br>
+                                            <span style="font-size:24px; position:relative;left:360px;">{{ minutes }}:{{
+                                                seconds }}</span>
                                             <el-descriptions class="margin-top" title="订单详细" :column="1" border>
                                                 <el-descriptions-item>
                                                     <template slot="label">
@@ -317,7 +492,7 @@
                                             <el-input type="textarea" v-model="orders.remark"></el-input>
                                             <br>
                                             <el-popover placement="left" width="300" trigger="click">
-                                                <div v-for="item in user.address" :key="item">
+                                                <div v-for="item in user.address" :key="item.id">
                                                     <el-tag>Num : {{ item.number }}</el-tag><br>
                                                     <hr>
                                                     <span>收货人姓名:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{
@@ -396,8 +571,9 @@
                                     <el-input type="textarea" v-model="marketProduces.description"></el-input>
                                 </el-form-item><br>
                                 <el-form-item>
-                                    <el-button type="primary" @click="submitForm('marketProduces')">立即创建</el-button>
-                                    <el-button type="primary" @click="resetForm('marketProduces')">重置</el-button>
+                                    <el-button type="primary" @click="submitForm('marketProduces')"
+                                        class="button">立即创建</el-button>
+                                    <el-button type="text" @click="resetForm('marketProduces')">重置</el-button>
                                 </el-form-item>
                             </el-form>
                         </div>
@@ -411,7 +587,7 @@
             <!-- 列表数据为空展示 -->
             <div v-if="ske">
                 <el-skeleton :rows="6" animated style="position: relative;top:100px;" />
-                <sapn style="position: relative;top:100px; font-size: larger;">未查询到符合条件的产品！</sapn>
+                <span style="position: relative;top:100px; font-size: larger;">未查询到符合条件的产品！</span>
                 <el-skeleton :rows="6" animated style="position: relative;top:100px;" />
             </div>
 
@@ -502,10 +678,9 @@
                                         <el-dialog title="确认订单" :visible.sync="dialogTableVisible" append-to-body>
 
                                             <span
-                                                style="font-size:22px; position:relative;left:180px;">请及时确认订单，倒计时结束将自动取消订单</span><br><br>
-                                            <span style="font-size:20px; position:relative;left:360px;">{{ minutes }}:{{
-                                                seconds }}:{{ milliseconds
-                                                }}</span>
+                                                style="font-size:22px; position:relative;left:180px;">请及时确认订单，15分钟后将自动取消订单</span><br><br>
+                                            <span style="font-size:24px; position:relative;left:360px;">{{ minutes }}:{{
+                                                seconds }}</span>
                                             <el-descriptions class="margin-top" title="订单详细" :column="1" border>
                                                 <el-descriptions-item>
                                                     <template slot="label">
@@ -552,6 +727,13 @@
                                                 <el-descriptions-item>
                                                     <template slot="label">
                                                         <i class="el-icon-office-building"></i>
+                                                        产品图片
+                                                    </template>
+                                                    <img :src="ordersDetails.image" style="width:100px;height:100px;">
+                                                </el-descriptions-item>
+                                                <el-descriptions-item>
+                                                    <template slot="label">
+                                                        <i class="el-icon-office-building"></i>
                                                         重量(kg)
                                                     </template>
                                                     {{ ordersDetails.produceWeight }}
@@ -575,7 +757,7 @@
                                             <el-input type="textarea" v-model="orders.remark"></el-input>
                                             <br>
                                             <el-popover placement="left" width="300" trigger="click">
-                                                <div v-for="item in user.address" :key="item">
+                                                <div v-for="item in user.address" :key="item.id">
                                                     <el-tag>Num : {{ item.number }}</el-tag><br>
                                                     <hr>
                                                     <span>收货人姓名:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{
@@ -629,10 +811,12 @@ import {
     createMarketProduces, queryAll, getByIdMarketProducesUser,
     createOrders, createOrdersDetails,
     updateUserOrders, getOrdersByIdUser, updateUserOrdersConfirm,
-    updateUserOrdersCancel, queryProducesPlus
+    updateUserOrdersCancel, queryProducesPlus, updateUserOrdersConfirmPlus
 } from '@/api/marketProduces';
 
 import { createShoppingCart, queryShoppingCart, deleteShoppingCart } from '@/api/shoppingCart'
+
+import { queryCategory } from '@/api/charts';
 
 import { mapState } from 'vuex';
 
@@ -680,6 +864,8 @@ export default {
 
             dialogTableVisible2: false,
 
+            dialogTableVisible3: false,
+
             weight: '',
 
             ske: true,
@@ -716,6 +902,7 @@ export default {
                 orderNumber: '',
                 userId: '',
                 username: '',
+                merchantId: '',
                 merchantName: '',
                 addressBookId: '',
                 consigneeName: '',
@@ -737,6 +924,7 @@ export default {
                 ordersId: '',
                 ordersNumber: '',
                 produceName: '',
+                image: '',
                 produceCategory: '',
                 produceWeight: '',
                 unitPrice: '',
@@ -782,10 +970,6 @@ export default {
             order: '',
             orderKind: '1',
 
-            //秒杀产品
-            wait: true,
-            start: false,
-
             id: '',
 
             address: {
@@ -799,10 +983,12 @@ export default {
             seconds: 0,
             timer: null,
 
-            //倒计时
-            minutesPlus: 0,
-            secondsPlus: 0,
-            timerPlus: null
+            //倒计时plus1
+            minutesPlus1: 0,
+            secondsPlus1: 0,
+            timerPlus1: null,
+
+            i1: null,
         }
     },
 
@@ -812,11 +998,12 @@ export default {
             this.listsPlus = res.data.list
             //开启订单确认倒计时
             const totalMilliseconds = res.data.date;
-            this.initCountdownPlus(totalMilliseconds);
-            this.startCountdownPlus();
+            if (res.data.date < 0) {
+                this.initCountdownPlus1(60 * 1000);
+            }
+            this.initCountdownPlus1(totalMilliseconds);
+            this.startCountdownPlus1();
         })
-
-
 
         this.getCategory()
         this.selectAll()
@@ -828,61 +1015,85 @@ export default {
 
         const myChart = echarts.init(document.getElementById('main'));
 
-        var data = [];
-        for (let i = 0; i < 5; ++i) {
-            data.push(Math.round(Math.random() * 200));
-        }
+        var categoryList = []
+
+        var amountList = []
+
+
+
         var option = {
+            title: {
+                text: '农产品分类总销售额排名TOP10'
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'shadow'
+                }
+            },
+            legend: {},
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
             xAxis: {
-                max: 'dataMax'
+                type: 'value',
+                boundaryGap: [0, 0.01]
             },
             yAxis: {
                 type: 'category',
-                data: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'],
-                inverse: true,
-                animationDuration: 3000,
-                animationDurationUpdate: 3000,
-                max: 10 // only the largest 3 bars will be displayed
+                data: categoryList
             },
             series: [
                 {
-                    realtimeSort: true,
-                    name: '销售额排名TOP',
+                    name: '农产品分类总销售额排名TOP10',
                     type: 'bar',
-                    data: [100, 100, 100, 100, 100, 100, 100, 100, 100, 100],
-                    label: {
-                        show: true,
-                        position: 'right',
-                        valueAnimation: true
-                    }
-                }
-            ],
-            legend: {
-                show: true
-            },
-            animationDuration: 300,
-            animationDurationUpdate: 300,
-            animationEasing: 'linear',
-            animationEasingUpdate: 'linear'
-        }
+                    data: amountList
+                },
+            ]
+        };
 
-        myChart.setOption(option);
-
-        function update() {
-            var data = option.series[0].data;
-            for (var i = 0; i < data.length; ++i) {
-                if (Math.random() > 0.9) {
-                    data[i] += Math.round(Math.random() * 200);
-                } else {
-                    data[i] += Math.round(Math.random() * 200);
+        queryCategory().then(
+            res => {
+                for (const item of res.data.category) {
+                    categoryList.push(item);
                 }
+                for (const item of res.data.amount) {
+                    amountList.push(item);
+                }
+                // 更新图表选项中的数据
+                option.yAxis.data = categoryList;
+                option.series[0].data = amountList;
+                myChart.setOption(option);
             }
-            myChart.setOption(option);
+        );
+
+        //更新排名
+        function update() {
+            // 先清空数组
+            categoryList = [];
+            amountList = [];
+            queryCategory().then(
+                res => {
+                    for (const item of res.data.category) {
+                        categoryList.push(item);
+                    }
+                    for (const item of res.data.amount) {
+                        amountList.push(item);
+                    }
+                    // 更新图表选项中的数据
+                    option.yAxis.data = categoryList;
+                    option.series[0].data = amountList;
+                    myChart.setOption(option);
+                }
+            );
         }
 
-        setInterval(function () {
+        this.i1 = setInterval(function () {
             update();
-        }, 2000);
+        }, 10000);
 
         this.loading = false
     },
@@ -891,42 +1102,140 @@ export default {
         if (this.timer) {
             clearInterval(this.timer);
         }
-        if (this.timerPlus) {
-            clearInterval(this.timerPlus);
+        if (this.timerPlus1) {
+            clearInterval(this.timerPlus1);
+        }
+        if (this.i1) {
+            clearInterval(this.i1);
         }
     },
 
     methods: {
 
-        initCountdownPlus(totalMilliseconds) {
-            this.minutesPlus = Math.floor(totalMilliseconds / (1000 * 60));
-            const remainingAfterMinutes = totalMilliseconds % (1000 * 60);
-            this.secondsPlus = Math.floor(remainingAfterMinutes / 1000);
+        confirmPurchasePlus(id) {
+            this.updateOrders.id = this.orders.id
+            this.updateOrders.marketProducesId = id
+            if (this.orders.remark != '' && this.orders != null) {
+                this.updateOrders.remark = this.orders.remark
+            }
+            updateUserOrdersConfirmPlus(this.updateOrders).then(res => {
+
+                if (res.code == 1) {
+                    this.dialogTableVisible3 = false
+                    queryProducesPlus().then(res => {
+                        this.listsPlus = res.data.list;
+                        // 开启订单确认倒计时
+                        const totalMilliseconds = res.data.date;
+                        this.initCountdownPlus1(totalMilliseconds);
+                        this.isRequestPending = false;
+                        this.startCountdownPlus1();
+                    });
+
+                    this.$message({
+                        showClose: true,
+                        message: '购买成功',
+                        type: 'success'
+                    });
+                }
+            })
         },
 
-        startCountdownPlus() {
-            clearInterval(this.timerPlus);
+        //购买产品，生成订单及订单明细表
+        purchasePlus() {
+            if (this.user.address.length == 0) {
+                this.$message({
+                    showClose: true,
+                    message: '您还未添加收货地址，请在个人中心添加后购买',
+                    type: 'error'
+                });
+                return
+            }
+            this.dialogTableVisible3 = true
+
+            const order = {
+                userId: this.user.id,
+                username: this.user.username,
+                merchantName: this.marketProduces.username,
+                merchantId: this.marketProduces.id
+            }
+
+            createOrders(order).then(res => {
+                this.orders = res.data
+                const orderDetails = {
+                    produceName: this.marketProduces.name,
+                    produceCategory: this.marketProduces.category,
+                    unitPrice: this.marketProduces.unitPrice,
+                    ordersId: res.data.id,
+                    weight: this.weight
+                }
+
+                createOrdersDetails(orderDetails).then(res => {
+                    this.ordersDetails = res.data
+                })
+            })
+
+            //开启订单确认倒计时
+            const totalMilliseconds = 900 * 1000;
+            this.initCountdown(totalMilliseconds);
+            this.startCountdown();
+        },
+
+        //初始化秒杀产品计时器
+        initCountdownPlus1(totalMilliseconds) {
+            this.minutesPlus1 = Math.floor(totalMilliseconds / (1000 * 60));
+            const remainingAfterMinutes = totalMilliseconds % (1000 * 60);
+            this.secondsPlus1 = Math.floor(remainingAfterMinutes / 1000);
+        },
+
+        //开启秒杀产品计时器
+        startCountdownPlus1() {
+
+            clearInterval(this.timerPlus1);
             const updateCountdown = () => {
-                if (this.secondsPlus > 0) {
-                    this.secondsPlus--;
+
+                if (this.secondsPlus1 > 0) {
+                    this.secondsPlus1--;
                 } else {
-                    if (this.minutesPlus > 0) {
-                        this.minutesPlus--;
-                        this.secondsPlus = 59;
+                    if (this.minutesPlus1 > 0) {
+                        this.minutesPlus1--;
+                        this.secondsPlus1 = 59;
                     } else {
-                        clearInterval(this.timerPlus);
+
+                        if (this.secondsPlus1 == 0) {
+                            clearInterval(this.timerPlus1);
+                            this.$notify({
+                                title: '秒杀提醒',
+                                message: '新一轮抢购开始',
+                                type: 'success'
+                            });
+                            queryProducesPlus().then(res => {
+                                this.listsPlus = res.data.list;
+                                // 开启订单确认倒计时
+                                const totalMilliseconds = res.data.date;
+                                if (res.data.date == null || res.data.date < 0) {
+                                    this.initCountdownPlus1(60 * 1000);
+                                } else {
+                                    this.initCountdownPlus1(totalMilliseconds);
+                                }
+                                this.isRequestPending = false;
+                                this.startCountdownPlus1();
+                            });
+                        }
                     }
                 }
             };
-            this.timerPlus = setInterval(updateCountdown, 1000); // 每秒更新一次，与系统秒数更新频率一致
+
+            this.timerPlus1 = setInterval(updateCountdown, 1000);
         },
 
+        //初始化订单计时器
         initCountdown(totalMilliseconds) {
             this.minutes = Math.floor(totalMilliseconds / (1000 * 60));
             const remainingAfterMinutes = totalMilliseconds % (1000 * 60);
             this.seconds = Math.floor(remainingAfterMinutes / 1000);
         },
 
+        //开启订单计时器
         startCountdown() {
             clearInterval(this.timer);
             const updateCountdown = () => {
@@ -1048,7 +1357,8 @@ export default {
                     const order = {
                         userId: this.user.id,
                         username: this.user.username,
-                        merchantName: item.merchantName
+                        merchantName: item.merchantName,
+                        merchantId: item.marketProducesId
                     };
 
                     createOrders(order).then(res => {
@@ -1106,7 +1416,8 @@ export default {
             const order = {
                 userId: this.user.id,
                 username: this.user.username,
-                merchantName: item.merchantName
+                merchantName: item.merchantName,
+                merchantId: this.marketProduces.id
             }
 
             createOrders(order).then(res => {
@@ -1297,7 +1608,8 @@ export default {
             const order = {
                 userId: this.user.id,
                 username: this.user.username,
-                merchantName: this.marketProduces.username
+                merchantName: this.marketProduces.username,
+                merchantId: this.marketProduces.id
             }
 
             createOrders(order).then(res => {
@@ -1378,8 +1690,19 @@ export default {
             updateUserOrdersCancel(this.updateOrders).then(
                 res => {
                     if (res.code == 1) {
-                        this.dialogTableVisible = false
-                        this.dialogTableVisible1 = false
+
+                        if (this.dialogTableVisible == true) {
+                            this.dialogTableVisible = false
+                        }
+
+                        if (this.dialogTableVisible1 == true) {
+                            this.dialogTableVisible1 = false
+                        }
+
+                        if (this.dialogTableVisible3 == true) {
+                            this.dialogTableVisible3 = false
+                        }
+
                         this.$message({
                             showClose: true,
                             message: '取消成功',

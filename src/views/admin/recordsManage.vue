@@ -4,12 +4,26 @@
     z-index: 10;
     left:5px;
     top:70px;">
-    <first-top/>
+        <first-top />
         <el-main>
             <!-- 检索栏 -->
             <el-row :gutter="30" style="position:fixed; left:30px; top:100px;width: 100%;">
                 <el-col :span="4"><el-input v-model="username" placeholder="用户名"></el-input></el-col>
                 <el-col :span="4"><el-input v-model="phoneNumber" placeholder="电话号码"></el-input></el-col>
+                <el-col :span="4">
+
+                    <el-select v-model="status" placeholder="请选择状态">
+                        <el-option label="全部订单" value="">
+                        </el-option>
+                        <el-option label="已完成" value="1">
+                        </el-option>
+                        <el-option label="已取消" value="3">
+                        </el-option>
+                        <el-option label="待确认" value="2">
+                        </el-option>
+                    </el-select>
+
+                </el-col>
                 <!-- 时间选择器 -->
                 <el-col :span="6">
                     <div class="block">
@@ -19,166 +33,122 @@
                     </div>
                 </el-col>
                 <!-- 按钮 -->
-                <div style="position:fixed;top:100px;left:1050px;">
+                <div style="position:fixed;top:100px;left:1350px;">
                     <!-- 检索 -->
                     <el-button type="primary" icon="el-icon-search" @click="pageByCondition">查找</el-button>
-                    <!-- 增加用户 -->
-                    <el-popover placement="right" width="400" trigger="click">
-                        <div class="popover">
-                            <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px"
-                                class="demo-ruleForm">
-                                <el-form-item label="用户名" prop="username">
-                                    <el-input v-model="ruleForm.username"></el-input>
-                                </el-form-item>
-                                <el-form-item label="密码" prop="password">
-                                    <el-input v-model="ruleForm.password"></el-input>
-                                </el-form-item>
-                                <el-form-item label="性别" prop="gender">
-                                    <el-select v-model="ruleForm.gender" placeholder="请选择性别">
-                                        <el-option label="男" value="1"></el-option>
-                                        <el-option label="女" value="2"></el-option>
-                                    </el-select>
-                                </el-form-item>
-                                <el-form-item label="权限" prop="type">
-                                    <el-select v-model="ruleForm.type" placeholder="请选择权限">
-                                        <el-option label="普通用户" value="1"></el-option>
-                                        <el-option label="管理员" value="2"></el-option>
-                                    </el-select>
-                                </el-form-item>
-                                <el-form-item label="状态" prop="status">
-                                    <el-select v-model="ruleForm.status" placeholder="请选择状态">
-                                        <el-option label="启用" value="1"></el-option>
-                                        <el-option label="禁用" value="2"></el-option>
-                                    </el-select>
-                                </el-form-item>
-                                <el-form-item label="头像">
-                                    <el-upload class="avatar-uploader" action="http://localhost:8081/upload"
-                                        :show-file-list="false" :on-success="handleAvatarSuccess"
-                                        :before-upload="beforeAvatarUpload">
-                                        <img v-if="ruleForm.image" :src="ruleForm.image" class="avatar">
-                                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                                    </el-upload>
-                                </el-form-item>
-
-                                <el-form-item label="电话号码" prop="phoneNumber">
-                                    <el-input v-model="ruleForm.phoneNumber"></el-input>
-                                </el-form-item>
-                                <el-form-item label="邮箱" prop="email">
-                                    <el-input v-model="ruleForm.email"></el-input>
-                                </el-form-item>
-                                <el-form-item>
-                                    <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
-                                    <el-button @click="resetForm('ruleForm')">重置</el-button>
-                                </el-form-item>
-                            </el-form>
-                        </div>
-                        <el-button slot="reference" type="primary" icon="el-icon-circle-plus"
-                            style="margin-left:300px;">
-                            添加用户
-                        </el-button>
-                    </el-popover>
                 </div>
             </el-row>
 
-            <!-- 商品列表数据 -->
+            <!-- 订单列表数据 -->
             <el-table stripe :data="tableData" style="position:fixed; left:30px;top:160px; font-size: medium;">
+                <el-table-column prop="orderNumber" label="订单号" width="400">
+                </el-table-column>
+                <el-table-column prop="status" label="状态" width="160">
+                    <template slot-scope="scope">
+                        <span v-if="scope.row.status === 1" style="color: green;">已完成</span>
+                        <span v-if="scope.row.status === 2" style="color: blue;">待确认</span>
+                        <span v-if="scope.row.status === 3" style="color: red;">已取消</span>
+                    </template>
+                </el-table-column>
                 <el-table-column prop="username" label="用户名" width="150">
+                </el-table-column>
+                <el-table-column prop="merchantName" label="商家名称" width="150">
+                </el-table-column>
+                <el-table-column prop="consigneeName" label="收货人姓名" width="180">
+                </el-table-column>
+                <el-table-column prop="addressBookName" label="收货地址" width="280">
                 </el-table-column>
                 <el-table-column prop="phoneNumber" label="电话号码" width="180">
                 </el-table-column>
-                <el-table-column prop="gender" label="性别" width="100">
-                    <template slot-scope="scope">
-                        {{ scope.row.gender == 1 ? '男' : '女' }}
-                    </template>
-                </el-table-column>
-                <el-table-column label="头像" width="150">
-                    <template slot-scope="scope">
-                        <div>
-                            <img :src="scope.row.image" width="60" height="50" style="border-radius: 5px;" />
-                        </div>
-                    </template>
-                </el-table-column>
-                <el-table-column prop="email" label="邮箱" width="270">
-                </el-table-column>
-                <el-table-column prop="status" label="账号状态" width="140">
-                    <template slot-scope="scope">
-                        {{ scope.row.status == 1 ? '启用' : '禁用' }}
-                    </template>
-                </el-table-column>
-                <el-table-column prop="type" label="账号权限" width="140">
-                    <template slot-scope="scope">
-                        {{ scope.row.type == 1 ? '普通用户' : '管理员' }}
-                    </template>
-                </el-table-column>
-                <el-table-column prop="updateTime" label="最后操作日期" width="220">
-                </el-table-column>
 
-                <!-- 修改用户 -->
-                <el-table-column label="修改" width="120">
+                <!-- 详细 -->
+                <el-table-column label="订单明细" width="100">
                     <template slot-scope="scope">
-                        <el-popover placement="right" width="400" trigger="click">
+                        <el-popover placement="right" width="600" trigger="click">
                             <div class="popover">
-                                <el-form :model="user" ref="user" label-width="100px" class="demo-ruleForm">
-                                    <el-form-item label="用户名" prop="username">
-                                        <el-input v-model="user.username"></el-input>
-                                    </el-form-item>
-                                    <el-form-item label="密码" prop="password">
-                                        <el-input v-model="user.password"></el-input>
-                                    </el-form-item>
-                                    <el-form-item label="性别" prop="gender">
-                                        <el-select v-model="user.gender" placeholder="请选择性别">
-                                            <el-option label="男" value="1"></el-option>
-                                            <el-option label="女" value="2"></el-option>
-                                        </el-select>
-                                    </el-form-item>
-                                    <el-form-item label="权限" prop="type">
-                                        <el-select v-model="user.type" placeholder="请选择权限">
-                                            <el-option label="普通用户" value="1"></el-option>
-                                            <el-option label="管理员" value="2"></el-option>
-                                        </el-select>
-                                    </el-form-item>
-                                    <el-form-item label="状态" prop="status">
-                                        <el-select v-model="user.status" placeholder="请选择状态">
-                                            <el-option label="启用" value="1"></el-option>
-                                            <el-option label="禁用" value="2"></el-option>
-                                        </el-select>
-                                    </el-form-item>
-                                    <el-form-item label="头像">
-                                        <el-upload class="avatar-uploader" action="http://localhost:8081/upload"
-                                            :show-file-list="false" :on-success="handleAvatarSuccess"
-                                            :before-upload="beforeAvatarUpload">
-                                            <img v-if="user.image" :src="user.image" class="avatar">
-                                            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                                        </el-upload>
-                                    </el-form-item>
-
-                                    <el-form-item label="电话号码" prop="phoneNumber">
-                                        <el-input v-model="user.phoneNumber"></el-input>
-                                    </el-form-item>
-                                    <el-form-item label="邮箱" prop="email">
-                                        <el-input v-model="user.email"></el-input>
-                                    </el-form-item>
-                                    <el-form-item>
-                                        <el-button type="primary" @click="update('user')">立即修改</el-button>
-                                    </el-form-item>
-                                </el-form>
+                                <el-descriptions class="margin-top" title="订单明细" :column="1" border>
+                                    <el-descriptions-item>
+                                        <template slot="label">
+                                            <i class="el-icon-user"></i>
+                                            产品名称
+                                        </template>
+                                        {{ ordersDetails.produceName }}
+                                    </el-descriptions-item>
+                                    <el-descriptions-item>
+                                        <template slot="label">
+                                            <i class="el-icon-mobile-phone"></i>
+                                            产品分类
+                                        </template>
+                                        {{ ordersDetails.produceCategory }}
+                                    </el-descriptions-item>
+                                    <el-descriptions-item>
+                                        <template slot="label">
+                                            <i class="el-icon-mobile-phone"></i>
+                                            产品图片
+                                        </template>
+                                        <img :src="ordersDetails.image" style="width:300px;height: 300px;">
+                                    </el-descriptions-item>
+                                    <el-descriptions-item>
+                                        <template slot="label">
+                                            <i class="el-icon-location-outline"></i>
+                                            产品重量
+                                        </template>
+                                        {{ ordersDetails.produceWeight }}
+                                    </el-descriptions-item>
+                                    <el-descriptions-item>
+                                        <template slot="label">
+                                            <i class="el-icon-office-building"></i>
+                                            产品单价
+                                        </template>
+                                        {{ ordersDetails.unitPrice }}
+                                    </el-descriptions-item>
+                                    <el-descriptions-item>
+                                        <template slot="label">
+                                            <i class="el-icon-office-building"></i>
+                                            总价
+                                        </template>
+                                        {{ ordersDetails.amount }}
+                                    </el-descriptions-item>
+                                    <el-descriptions-item>
+                                        <template slot="label">
+                                            <i class="el-icon-user"></i>
+                                            创建时间
+                                        </template>
+                                        {{ scope.row.createTime }}
+                                    </el-descriptions-item>
+                                    <el-descriptions-item>
+                                        <template slot="label">
+                                            <i class="el-icon-user"></i>
+                                            完成时间
+                                        </template>
+                                        {{ scope.row.completeTime == null ? 'null' : scope.row.completeTime }}
+                                    </el-descriptions-item>
+                                    <el-descriptions-item>
+                                        <template slot="label">
+                                            <i class="el-icon-user"></i>
+                                            取消时间
+                                        </template>
+                                        {{ scope.row.cancelTime == null ? 'null' : scope.row.cancelTime }}
+                                    </el-descriptions-item>
+                                    <el-descriptions-item>
+                                        <template slot="label">
+                                            <i class="el-icon-user"></i>
+                                            备注
+                                        </template>
+                                        {{ scope.row.remark == null ? 'null' : scope.row.remark }}
+                                    </el-descriptions-item>
+                                </el-descriptions>
                             </div>
-                            <el-button slot="reference" type="text" icon="el-icon-s-tools"
-                                @click="selectById(scope.row.id)">
-                            </el-button>
+                            <el-button slot="reference" type="text" icon="el-icon-more"
+                                @click="selectById(scope.row.id)"></el-button>
                         </el-popover>
                     </template>
-                </el-table-column>
-                <!-- 删除用户 -->
-                <el-table-column label="删除" width="120">
-                    <template slot-scope="scope">
-                        <el-button type="text" @click="open(scope.row.id)" icon="el-icon-delete-solid"></el-button>
-                    </template>
+
                 </el-table-column>
             </el-table>
             <!-- 分页查询 -->
             <div class="block" style="position:fixed; top:950px; left:600px">
-                <el-pagination @current-change="handleCurrentChange" :current-page="pageNo" :page-size="pageSize"
+                <el-pagination @current-change="handleCurrentChange" :page-size="pageSize"
                     layout="total, prev, pager, next, jumper" :total=total>
                 </el-pagination>
             </div>
@@ -186,12 +156,13 @@
     </div>
 </template>
 <script>
-import { pageQuery, createUser, deleteUser, getByIdUser, updateUser } from '@/api/userManage';
+import { pageQuery } from '@/api/orders';
+import { getById } from '@/api/ordersDetails';
 import moment from 'moment';
 import firstTop from '@/components/firstTop.vue';
 export default {
     name: 'recordsManage',
-    components:{
+    components: {
         firstTop
     },
     data() {
@@ -226,10 +197,17 @@ export default {
                 }]
             },
 
-
             //分页查询
             // 列表展示数据
             tableData: null,
+            ordersDetails: {
+                produceName: '',
+                produceCategory: '',
+                produceWeight: '',
+                unitPrice: '',
+                amount: '',
+                image: ''
+            },
             //总数
             total: null,
             PageNo: 1,
@@ -237,63 +215,10 @@ export default {
             //分页条件
             username: '',
             phoneNumber: '',
+            status: '',
             timeRange: '',
             startTime: null,
             endTime: null,
-
-            //修改用户
-            user: {
-                id: '',
-                username: '',
-                password: '',
-                gender: '',
-                type: '',
-                status: '',
-                phoneNumber: '',
-                email: '',
-                image: ''
-            },
-
-            //添加用户
-            ruleForm: {
-                username: '',
-                password: '',
-                gender: '',
-                type: '',
-                status: '',
-                phoneNumber: '',
-                email: '',
-                image: ''
-            },
-
-            //数据校验
-            rules: {
-                username: [
-                    { required: true, message: '请输入用户名', trigger: 'blur' },
-                    { min: 4, max: 10, message: '长度在 4 到 10 个字符', trigger: 'blur' }
-                ],
-                password: [
-                    { required: true, message: '请输入密码', trigger: 'blur' },
-                    { min: 6, max: 18, message: '长度在 6 到 18 个字符', trigger: 'blur' }
-                ],
-                phoneNumber: [
-                    { required: true, message: '请输入电话号码', trigger: 'blur' },
-                    { min: 9, max: 12, message: '长度在 9 到 12 个字符', trigger: 'blur' }
-                ],
-                email: [
-                    { required: true, message: '请输入邮箱地址', trigger: 'blur' },
-                    { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }
-                ],
-                type: [
-                    { type: 'array', required: true, message: '请至少选择一种权限', trigger: 'change' }
-                ],
-                gender: [
-                    { type: 'array', required: true, message: '请至少选择一种性别', trigger: 'change' }
-                ],
-                status: [
-                    { type: 'array', required: true, message: '请至少选择一种状态', trigger: 'change' }
-                ]
-            },
 
             id: ''
         };
@@ -302,113 +227,23 @@ export default {
     mounted() {
         //页面渲染完成后分页查询获取数据
         this.pageNo = 1
-        this.pageSize = 9
+        this.pageSize = 11
         this.page()
     },
 
     methods: {
-        //修改用户
-        update() {
 
-            if (this.user.status == '启用') {
-                this.user.status = 1
-            }
-
-            if (this.user.status == '禁用') {
-                this.user.status = 2
-            }
-
-            if (this.user.gender == '男') {
-                this.user.gender = 1
-            }
-
-            if (this.user.gender == '女') {
-                this.user.gender = 2
-            }
-
-            if (this.user.type == '普通用户') {
-                this.user.type = 1
-            }
-
-            if (this.user.type == '管理员') {
-                this.user.type = 2
-            }
-
-            updateUser(this.user).then(
-                response => {
-                    //处理响应结果
-                    if (response.code === 1) {
-                        this.user.id = ''
-                        this.user.username = ''
-                        this.user.password = ''
-                        this.user.gender = ''
-                        this.user.type = ''
-                        this.user.status = ''
-                        this.user.phoneNumber = ''
-                        this.user.email = ''
-                        this.user.image = ''
-
-                        this.page()
-
-                        this.selectById(this.id)
-
-                        this.$message({
-                            showClose: true,
-                            message: '修改成功',
-                            type: 'success'
-                        })
-
-                    } else if (response.code === 0) {
-                        this.$message({
-                            showClose: true,
-                            message: response.msg,
-                            type: 'error'
-                        });
-                    }
-                }
-            )
-        },
-
-        //根据id查询用户
+        //根据id查询订单明细
         selectById(id) {
-            getByIdUser(id).then(
+            getById(id).then(
                 data => {
                     this.id = id
-                    this.user = data.data
-                    this.user.status === 1 ? (this.user.status = '启用') : (this.user.status = '禁用');
-                    this.user.gender === 1 ? (this.user.gender = '男') : (this.user.gender = '女');
-                    this.user.type === 1 ? (this.user.type = '普通用户') : (this.user.type = '管理员');
+                    this.ordersDetails = data.data
                 }
             )
         },
 
-        //删除员工
-        open(id) {
-            this.$confirm('此操作将永久删除该用户, 是否继续?', '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'warning'
-            }).then(() => {
-                deleteUser(id).then(
-                    data => {
-                        if (data.code == 1) {
-                            this.page()
-                            this.$message({
-                                type: 'success',
-                                message: '删除成功!'
-                            });
-                        }
-                    }
-                )
-            }).catch(() => {
-                this.$message({
-                    type: 'info',
-                    message: '已取消删除'
-                });
-            });
-        },
-
-        //员工分页查询数据
+        //订单分页查询数据
         page() {
 
             if (this.timeRange != null) {
@@ -420,7 +255,7 @@ export default {
                 }
             }
 
-            pageQuery(this.pageNo, this.pageSize, this.username, this.phoneNumber, this.startTime, this.endTime)
+            pageQuery(this.pageNo, this.pageSize, this.username, this.phoneNumber, this.status, this.startTime, this.endTime)
                 .then(response => {
                     this.total = response.data.total
                     this.tableData = response.data.list
@@ -446,55 +281,6 @@ export default {
             this.page()
         },
 
-        //添加用户
-        submitForm(formName) {
-            this.$refs[formName].validate((valid) => {
-                if (valid) {
-                    createUser(this.ruleForm).then(
-                        response => {
-                            //处理响应结果
-                            if (response.code === 1) {
-                                this.page()
-                                this.$message({
-                                    showClose: true,
-                                    message: '添加成功',
-                                    type: 'success'
-                                });
-                            } else if (response.code === 0) {
-                                this.$message({
-                                    showClose: true,
-                                    message: response.msg,
-                                    type: 'error'
-                                });
-                            }
-                        }
-                    )
-                } else {
-                    console.log('error submit!!');
-                    return false;
-                }
-            });
-        },
-
-        //重置表单
-        resetForm(formName) {
-            this.$refs[formName].resetFields();
-        },
-
-        handleAvatarSuccess(res, file) {
-            this.imageUrl = URL.createObjectURL(file.raw);
-            console.log(this.imageUrl);
-        },
-
-        //上传图片时校验
-        beforeAvatarUpload(file) {
-            const isLt2M = file.size / 1024 / 1024 < 2;
-
-            if (!isLt2M) {
-                this.$message.error('上传头像图片大小不能超过 2MB!');
-            }
-            return isLt2M;
-        }
 
     }
 }

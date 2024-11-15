@@ -17,7 +17,7 @@
         <!-- 轮播图 -->
         <hr class="hr" style="width: 100%" id="top">
         <el-carousel :interval="4000" type="card" height="200px" id="carousel">
-            <el-carousel-item v-for="item in imgs" :key="item">
+            <el-carousel-item v-for="item in imgs" :key="item.id">
                 <img :src="item" width="100%">
             </el-carousel-item>
         </el-carousel>
@@ -47,8 +47,8 @@
                         style="display:inline-block;margin:10px;width:350px;height:450px;">
                         <img :src="item.image" class="image multi-content" style="width:350px;height:350px;" />
                         <div style="padding: 14px;">
-                            <el-tag style="position:relative;left:-120px;">{{ processCategory(item.category) }}</el-tag>
-                            <span style="position:relative;left:-50px;font-weight: 100;font-size:larger">{{ item.name
+                            <el-tag style="position:relative;left:-110px;">{{ processCategory(item.category) }}</el-tag>
+                            <span style="position:relative;left:-40px;font-weight: 100;font-size:larger">{{ item.name
                                 }}</span>
                             <div class="bottom card-header">
                                 <br>

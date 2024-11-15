@@ -128,7 +128,7 @@
 
                         <el-popover placement="right" width="600" trigger="click">
                             <div class="popover">
-                                <el-descriptions class="margin-top" title="产品详细" :column="1" :size="size" border>
+                                <el-descriptions class="margin-top" title="产品详细" :column="1" border>
                                     <el-descriptions-item>
                                         <template slot="label">
                                             <i class="el-icon-user"></i>
