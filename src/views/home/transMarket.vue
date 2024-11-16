@@ -1540,7 +1540,7 @@ export default {
         //查询用户购物车
         queryShopping() {
             //获取该用户的购物车数据
-            queryShoppingCart(this.user.id).then(
+            queryShoppingCart(localStorage.getItem('id')).then(
                 res => {
                     if (res) {
                         this.shoppingCarts = res.data

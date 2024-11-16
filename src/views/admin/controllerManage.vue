@@ -13,12 +13,13 @@
 
         <div class="produces">
             <span style="display: inline-block;margin-right: 100px;font-weight: 800;">产品总数</span>
-            <span style="display: inline-block;margin-right:100px;">300</span>
+            <span style="display: inline-block;margin-right:100px;">{{ produceAmount }}</span>
             <el-button type="text" @click="$router.push({ name: 'producesmanage' });">产品管理</el-button>
         </div>
+
         <div class="categorys">
             <span style="display: inline-block;margin-right: 100px;font-weight: 800;">分类总数</span>
-            <span style="display: inline-block;margin-right:100px;">300</span>
+            <span style="display: inline-block;margin-right:100px;">{{ categoryAmount }}</span>
             <el-button type="text" @click="$router.push({ name: 'categorymanage' });">分类管理</el-button>
         </div>
 
@@ -32,7 +33,7 @@
 
         <div class="user">
             <span style="display: inline-block;margin-right: 100px;margin-top:20px;font-weight: 800;">用户总数</span>
-            <span style="display: inline-block;margin-right:100px;">300</span>
+            <span style="display: inline-block;margin-right:100px;">{{ userAmount }}</span>
             <el-button type="text" @click="$router.push({ name: 'usermanage' });">用户管理</el-button>
             <div id="user" style="width: 500px;height:400px;"></div>
             <span style="display: inline-block;font-weight: 800;">新增用户</span>
@@ -40,7 +41,8 @@
         </div>
 
         <div class="orders">
-            <span style="display: inline-block;margin-right: 200px;margin-top:20px;font-weight: 800;">订单统计</span>
+            <span style="display: inline-block;margin-right: 100px;margin-top:20px;font-weight: 800;">订单统计</span>
+            <span style="display: inline-block;margin-right:100px;">{{ allOrders }}</span>
             <el-button type="text" style="margin-top:20px;"
                 @click="$router.push({ name: 'recordsmanage' });">订单管理</el-button><br>
             <div id="orders" style="width:430px;height:430px;position:relative; top:-10px;left:80px;"></div>
@@ -76,30 +78,26 @@ export default {
     data() {
         //页面数据
         return {
-            userCount: '',
-            userBCount: '',
-            userGCount: '',
-            categorysCount: '',
-            producesCount: '',
             user: '',
             createTime: '',
             day: '',
+
+            //统计数据
+            userAmount: '',
+            categoryAmount: '',
+            produceAmount: '',
+            chartBGList: '',
+            chartAddUser: '',
+            ordersList: '',
+            chartAmount: '',
+
+            allOrders: '',
+
         };
     },
 
     mounted() {
-
-        this.getUser()
-
-        this.countMF()
-
-        this.countAddUser()
-
-        this.countOrders()
-
-        this.countAmount()
-
-        //this.all()
+        this.all()
     },
 
     methods: {
@@ -127,11 +125,44 @@ export default {
             )
         },
 
+        common(res) {
+            this.userAmount = res.data.userAmount
+            this.categoryAmount = res.data.categoryAmount
+            this.produceAmount = res.data.produceAmount
+            this.chartBGList = res.data.chartBGList
+            this.chartAddUser = res.data.chartAddUser
+            this.ordersList = res.data.ordersList
+            this.chartAmount = res.data.chartAmount
+
+            for (const item of this.ordersList) {
+                if (item.status == 0) {
+                    this.allOrders = item.count
+                }
+            }
+
+            this.getUser()
+
+            this.countMF()
+
+            this.countAddUser()
+
+            this.countOrders()
+
+            this.countAmount()
+        },
+
         //全部
         all() {
-            queryAll('', '').then(
+            let end = new Date();
+            let start = new Date(0);
+            start = moment(start)
+            start = start.format('yyyy-MM-DD')
+            end = moment(end)
+            end = end.format('yyyy-MM-DD')
+
+            queryAll(start, end).then(
                 res => {
-                    //
+                    this.common(res)
                 }
             )
         },
@@ -140,7 +171,7 @@ export default {
         week() {
             let end = new Date();
             let start = new Date();
-            end = start - 3600 * 1000 * 24 * 7;
+            start = start - 3600 * 1000 * 24 * 7;
             start = moment(start)
             start = start.format('yyyy-MM-DD')
             end = moment(end)
@@ -148,7 +179,7 @@ export default {
 
             queryAll(start, end).then(
                 res => {
-                    //
+                    this.common(res)
                 }
             )
         },
@@ -156,7 +187,7 @@ export default {
         months() {
             let end = new Date();
             let start = new Date();
-            end = start - 3600 * 1000 * 24 * 30;
+            start = start - 3600 * 1000 * 24 * 30;
             start = moment(start)
             start = start.format('yyyy-MM-DD')
             end = moment(end)
@@ -164,7 +195,7 @@ export default {
 
             queryAll(start, end).then(
                 res => {
-                    //
+                    this.common(res)
                 }
             )
         },
@@ -172,7 +203,7 @@ export default {
         threeMonths() {
             let end = new Date();
             let start = new Date();
-            end = start - 3600 * 1000 * 24 * 90;
+            start = start - 3600 * 1000 * 24 * 90;
             start = moment(start)
             start = start.format('yyyy-MM-DD')
             end = moment(end)
@@ -180,13 +211,9 @@ export default {
 
             queryAll(start, end).then(
                 res => {
-                    //
+                    this.common(res)
                 }
             )
-        },
-
-        allCount() {
-            //
         },
 
         welcome() {
@@ -280,8 +307,8 @@ export default {
                             show: false
                         },
                         data: [
-                            { value: 1048, name: '男' },
-                            { value: 735, name: '女' },
+                            { value: this.chartBGList[0].count, name: '男' },
+                            { value: this.chartBGList[1].count, name: '女' },
                         ]
                     }
                 ]
@@ -318,17 +345,17 @@ export default {
                 xAxis: {
                     type: 'category',
                     boundaryGap: false,
-                    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                    data: this.chartAddUser.dateList
                 },
                 yAxis: {
                     type: 'value'
                 },
                 series: [
                     {
-                        name: 'Email',
+                        name: 'Number',
                         type: 'line',
                         stack: 'Total',
-                        data: [120, 132, 101, 134, 90, 230, 210]
+                        data: this.chartAddUser.value
                     }
                 ]
             };
@@ -373,10 +400,10 @@ export default {
                             show: false
                         },
                         data: [
-                            { value: 1048, name: 'All' },
-                            { value: 735, name: '已完成' },
-                            { value: 580, name: '已取消' },
-                            { value: 484, name: '待确认' },
+                            { value: this.ordersList[0].count, name: '已完成' },
+                            { value: this.ordersList[1].count, name: '待确认' },
+                            { value: this.ordersList[2].count, name: '已取消' },
+                            { value: this.ordersList[3].count, name: 'All' },
                         ]
                     }
                 ]
@@ -413,17 +440,17 @@ export default {
                 xAxis: {
                     type: 'category',
                     boundaryGap: false,
-                    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                    data: this.chartAmount.dataList
                 },
                 yAxis: {
                     type: 'value'
                 },
                 series: [
                     {
-                        name: 'Email',
+                        name: 'Number',
                         type: 'line',
                         stack: 'Total',
-                        data: [120, 132, 101, 134, 90, 230, 210]
+                        data: this.chartAmount.value
                     }
                 ]
             };
