@@ -20,17 +20,8 @@
 
         <div id="body">
             <div class="gallery">
-                <figure class="card1">
-                    <img src="../../assets/home4.jpeg" alt="1">
-                </figure>
-                <figure class="card1">
-                    <img src="../../assets/home5.jpeg" alt="1">
-                </figure>
-                <figure class="card1">
-                    <img src="../../assets/home6.jpeg" alt="1">
-                </figure>
-                <figure class="card1">
-                    <img src="../../assets/home7.jpeg" alt="1">
+                <figure class="card1" v-for="item in image" :key="item.id">
+                    <img :src="item.image" alt="1">
                 </figure>
             </div>
         </div>
@@ -40,11 +31,31 @@
 
 <script>
 
+import { getAccordionUser } from '@/api/static';
+
 export default {
     components: {
-        
+
     },
     name: 'homePage',
+
+    data() {
+        return {
+            image: ''
+        }
+    },
+
+    mounted() {
+        getAccordionUser()
+            .then(
+                res => {
+                    if (res.code == 1) {
+                        this.image = res.data
+                    }
+                }
+            )
+    },
+
     methods: {
         show() {
             this.$router.push({ name: 'showpage' });
@@ -63,33 +74,33 @@ export default {
 }
 
 #hh1 {
-    color:#3d6442;
+    color: #3d6442;
     transition: all 0.9s ease;
     opacity: 0.9;
 }
 
 #hh2 {
-    color:#3d6442;
+    color: #3d6442;
     transition: all 0.9s ease;
     opacity: 0.9;
 }
 
 #hh3 {
-    color:#4f6c53;
+    color: #4f6c53;
     transition: all 0.9s ease;
     opacity: 0.9;
 }
 
-#hh1:hover{
-    color:#7aac80;
+#hh1:hover {
+    color: #7aac80;
 }
 
-#hh2:hover{
-    color:#7aac80;
+#hh2:hover {
+    color: #7aac80;
 }
 
-#hh3:hover{
-    color:#7aac80;
+#hh3:hover {
+    color: #7aac80;
 }
 
 .button {
@@ -108,7 +119,7 @@ export default {
     background-image: linear-gradient(to right, #98ffb9 0%, #fff98d 100%);
 }
 
-button:hover{
+button:hover {
     color: rgba(50, 146, 255, 0.8);
 }
 

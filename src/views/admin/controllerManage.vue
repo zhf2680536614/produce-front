@@ -24,10 +24,13 @@
         </div>
 
         <div class="date">
-            <el-button class="button" style="position: fixed;left:520px;top:80px;" @click="all">全部</el-button>
-            <el-button class="button" style="position: fixed;left:795px;top:80px;" @click="week">近一周</el-button>
-            <el-button class="button" style="position: fixed;left:1080px;top:80px;" @click="months">近1个月</el-button>
-            <el-button class="button" style="position: fixed;left:1365px;top:80px;"
+            <el-button class="button" :class="{ fouce: 1 == fouce }" style="position: fixed;left:520px;top:130px;"
+                @click="all">全部</el-button>
+            <el-button class="button" :class="{ fouce: 2 == fouce }" style="position: fixed;left:795px;top:130px;"
+                @click="week">近一周</el-button>
+            <el-button class="button" :class="{ fouce: 3 == fouce }" style="position: fixed;left:1080px;top:130px;"
+                @click="months">近1个月</el-button>
+            <el-button class="button" :class="{ fouce: 4 == fouce }" style="position: fixed;left:1365px;top:130px;"
                 @click="threeMonths">近3个月</el-button>
         </div>
 
@@ -50,10 +53,49 @@
 
         <div class="controller">
             <div style="margin-top:20px;font-weight: 800;">用户端控制台</div>
-            <el-button class="buttonPlus" style="position: fixed;left:1150px;top:230px;">首页手风琴管理</el-button>
-            <el-button class="buttonPlus" style="position: fixed;left:1140px;top:330px;">精品页展示管理</el-button>
-            <el-button class="buttonPlus" style="position: fixed;left:1140px;top:430px;">轮播图展示管理</el-button>
+            <el-button class="buttonPlus" style="position: fixed;left:1150px;top:230px;"
+                @click="manage1">首页手风琴管理</el-button>
+            <el-button class="buttonPlus" style="position: fixed;left:1140px;top:330px;"
+                @click="manage3">精品页展示管理</el-button>
+            <el-button class="buttonPlus" style="position: fixed;left:1140px;top:430px;"
+                @click="manage2">轮播图展示管理</el-button>
         </div>
+
+        <el-dialog title="首页手风琴管理" :visible.sync="dialogTable1" append-to-body style="height:100%;">
+            <div v-for="(item, index) in imgs1" :key="index.id" style="display: inline-block;">
+                <el-upload class="avatar-uploader" action="http://localhost:8081/upload" :show-file-list="false"
+                    :on-success="handleAvatarSuccess1" :before-upload="beforeAvatarUpload">
+                    <div>第{{ index + 1 }}张</div>
+                    <img v-if="item" :src="item.image" class="avatar" style="width: 350px; height:300px;margin: 10px;"
+                        @click="id = item.id">
+                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                </el-upload>
+            </div>
+        </el-dialog>
+
+        <el-dialog title="轮播图管理" :visible.sync="dialogTable2" append-to-body style="height:100%;">
+            <div v-for="(item, index) in imgs2" :key="index.id" style="display: inline-block;">
+                <el-upload class="avatar-uploader" action="http://localhost:8081/upload" :show-file-list="false"
+                    :on-success="handleAvatarSuccess2" :before-upload="beforeAvatarUpload">
+                    <div>第{{ index + 1 }}张</div>
+                    <img v-if="item" :src="item.image" class="avatar" style="width: 350px; height:300px;margin: 10px;"
+                        @click="id = item.id">
+                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                </el-upload>
+            </div>
+        </el-dialog>
+
+        <el-dialog title="精品展示管理" :visible.sync="dialogTable3" append-to-body style="height:100%;">
+            <div v-for="(item, index) in imgs3" :key="index.id" style="display: inline-block;">
+                <el-upload class="avatar-uploader" action="http://localhost:8081/upload" :show-file-list="false"
+                    :on-success="handleAvatarSuccess3" :before-upload="beforeAvatarUpload">
+                    <div>第{{ index + 1 }}张</div>
+                    <img v-if="item" :src="item.image" class="avatar" style="width: 350px; height:300px;margin: 10px;"
+                        @click="id = item.id">
+                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                </el-upload>
+            </div>
+        </el-dialog>
 
         <div class="amount">
             <span style="display: inline-block;margin-top:20px;font-weight: 800;">销售额统计</span>
@@ -68,13 +110,16 @@ import firstTop from '@/components/firstTop.vue';
 import * as echarts from 'echarts';
 import { queryAll } from '@/api/charts';
 import { getByIdUser } from '@/api/userManage';
+import { updateAccordion, getAccordionAdmin, updateBoutique, getBoutiqueAdmin, updateCycle, getCycleAdmin } from '@/api/static'
 import moment from 'moment';
 
 export default {
     name: 'controllerManage',
+
     components: {
         firstTop,
     },
+
     data() {
         //页面数据
         return {
@@ -93,6 +138,20 @@ export default {
 
             allOrders: '',
 
+            fouce: '',
+
+
+            dialogTable1: false,
+            dialogTable2: false,
+            dialogTable3: false,
+
+            imgs1: '',
+            imgs2: '',
+            imgs3: '',
+
+
+            id: ''
+
         };
     },
 
@@ -102,6 +161,32 @@ export default {
 
     methods: {
 
+        manage1() {
+            this.dialogTable1 = true
+            getAccordionAdmin().then(
+                res => {
+                    this.imgs1 = res.data
+                }
+            )
+        },
+
+        manage2() {
+            this.dialogTable2 = true
+            getCycleAdmin().then(
+                res => {
+                    this.imgs2 = res.data
+                }
+            )
+        },
+
+        manage3() {
+            this.dialogTable3 = true
+            getBoutiqueAdmin().then(
+                res => {
+                    this.imgs3 = res.data
+                }
+            )
+        },
 
         //获取用户信息
         getUser() {
@@ -153,6 +238,7 @@ export default {
 
         //全部
         all() {
+            this.fouce = 1
             let end = new Date();
             let start = new Date(0);
             start = moment(start)
@@ -169,6 +255,7 @@ export default {
 
         //一周
         week() {
+            this.fouce = 2
             let end = new Date();
             let start = new Date();
             start = start - 3600 * 1000 * 24 * 7;
@@ -185,6 +272,7 @@ export default {
         },
         //一个月
         months() {
+            this.fouce = 3
             let end = new Date();
             let start = new Date();
             start = start - 3600 * 1000 * 24 * 30;
@@ -201,6 +289,7 @@ export default {
         },
         //3个月
         threeMonths() {
+            this.fouce = 4
             let end = new Date();
             let start = new Date();
             start = start - 3600 * 1000 * 24 * 90;
@@ -236,7 +325,7 @@ export default {
                                 lineWidth: 1
                             },
                             keyframeAnimation: {
-                                duration: 3000,
+                                duration: 2000,
                                 loop: false,
                                 keyframes: [
                                     {
@@ -457,11 +546,80 @@ export default {
             // 绘制图表
             chart.setOption(option);
         },
+
+        handleAvatarSuccess1(res) {
+            const item = {
+                id: this.id,
+                image: res.data
+            }
+            updateAccordion(item).then(
+                res => {
+                    if (res.code == 1) {
+                        getAccordionAdmin().then(
+                            res => {
+                                this.imgs1 = res.data
+                            }
+                        )
+                    }
+                }
+            )
+        },
+
+        handleAvatarSuccess2(res) {
+            const item = {
+                id: this.id,
+                image: res.data
+            }
+            updateCycle(item).then(
+                res => {
+                    if (res.code == 1) {
+                        getCycleAdmin().then(
+                            res => {
+                                this.imgs2 = res.data
+                            }
+                        )
+                    }
+                }
+            )
+        },
+
+        handleAvatarSuccess3(res) {
+            const item = {
+                id: this.id,
+                image: res.data
+            }
+            updateBoutique(item).then(
+                res => {
+                    if (res.code == 1) {
+                        getBoutiqueAdmin().then(
+                            res => {
+                                this.imgs3 = res.data
+                            }
+                        )
+                    }
+                }
+            )
+        },
+
+        //上传图片时校验
+        beforeAvatarUpload(file) {
+            const isLt2M = file.size / 1024 / 1024 < 10;
+
+            if (!isLt2M) {
+                this.$message.error('上传头像图片大小不能超过 10MB!');
+            }
+            return isLt2M;
+        }
     }
 }
 </script>
 
 <style scoped>
+.fouce {
+    background-color: #c3ddff;
+    box-shadow: 3px 3px 2px #d0d0d0;
+}
+
 .buttonPlus:hover {
     color: rgba(50, 146, 255, 0.8);
 }
@@ -525,7 +683,7 @@ export default {
     width: 555px;
     height: 35px;
     position: fixed;
-    top: 120px;
+    top: 80px;
     left: 520px;
     border-radius: 5px;
     font-size: 20px;
@@ -537,7 +695,7 @@ export default {
     width: 555px;
     height: 35px;
     position: fixed;
-    top: 120px;
+    top: 80px;
     left: 1090px;
     border-radius: 5px;
     font-size: 20px;

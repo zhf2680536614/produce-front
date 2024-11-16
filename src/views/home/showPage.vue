@@ -18,22 +18,23 @@
         <hr class="hr" style="width: 100%" id="top">
         <el-carousel :interval="4000" type="card" height="200px" id="carousel">
             <el-carousel-item v-for="item in imgs" :key="item.id">
-                <img :src="item" width="100%">
+                <img :src="item.image" width="100%">
             </el-carousel-item>
         </el-carousel>
         <hr class="hr" style="width: 100%" id="center">
         <span class="span">精品展示</span>
+
         <div id="div1">
             <div class="container">
-                <img src="../../assets/home1.jpg" alt="" class="card1" style="--i:-4" />
-                <img src="../../assets/home2.jpg" alt="" class="card1" style="--i:-3" />
-                <img src="../../assets/home3.jpg" alt="" class="card1" style="--i:-2" />
-                <img src="../../assets/home1.jpg" alt="" class="card1" style="--i:-1" />
-                <img src="../../assets/home2.jpg" alt="" class="card1" style="--i:0" />
-                <img src="../../assets/home3.jpg" alt="" class="card1" style="--i:1" />
-                <img src="../../assets/home1.jpg" alt="" class="card1" style="--i:2" />
-                <img src="../../assets/home2.jpg" alt="" class="card1" style="--i:3" />
-                <img src="../../assets/home3.jpg" alt="" class="card1" style="--i:4" />
+                <img :src="imgs1[0].image" alt="" class="card1" style="--i:-4" />
+                <img :src="imgs1[1].image" alt="" class="card1" style="--i:-3" />
+                <img :src="imgs1[2].image" alt="" class="card1" style="--i:-2" />
+                <img :src="imgs1[3].image" alt="" class="card1" style="--i:-1" />
+                <img :src="imgs1[4].image" alt="" class="card1" style="--i:0" />
+                <img :src="imgs1[5].image" alt="" class="card1" style="--i:1" />
+                <img :src="imgs1[6].image" alt="" class="card1" style="--i:2" />
+                <img :src="imgs1[7].image" alt="" class="card1" style="--i:3" />
+                <img :src="imgs1[8].image" alt="" class="card1" style="--i:4" />
             </div>
         </div>
 
@@ -97,7 +98,7 @@
                                             </template>
                                             {{ produces.shelfLife }}
                                         </el-descriptions-item>
-                                        
+
                                         <el-descriptions-item>
                                             <template slot="label">
                                                 <i class="el-icon-office-building"></i>
@@ -129,6 +130,7 @@
 import homeTop from '@/components/homeTop.vue';
 import { queryAll, getByIdProducesUser } from '@/api/produces';
 import { queryCategoryUser } from '@/api/category'
+import { getCycleUser, getBoutiqueUser } from '@/api/static';
 
 export default {
     components: {
@@ -138,10 +140,9 @@ export default {
     data() {
         return {
 
-            imgs: ['https://th.bing.com/th/id/R.e636e5f9ae0388421d048d93ecfbc5b8?rik=XWWt54hFT3Pknw&pid=ImgRaw&r=0',
-                'https://th.bing.com/th/id/R.e636e5f9ae0388421d048d93ecfbc5b8?rik=XWWt54hFT3Pknw&pid=ImgRaw&r=1',
-                'https://th.bing.com/th/id/R.e636e5f9ae0388421d048d93ecfbc5b8?rik=XWWt54hFT3Pknw&pid=ImgRaw&r=2'
-            ],
+            imgs: '',
+
+            imgs1: '',
 
             tabPosition: 'left',
 
@@ -170,6 +171,20 @@ export default {
         this.loading = false
         this.selectAll()
         this.categorys = this.$store.state.categorys
+
+        getCycleUser().then(
+            res => {
+                this.imgs = res.data
+                console.log(res.data)
+            }
+        )
+
+        getBoutiqueUser().then(
+            res => {
+                this.imgs1 = res.data
+                console.log(res.data)
+            }
+        )
     },
 
     methods: {
@@ -234,7 +249,6 @@ export default {
 </script>
 
 <style scoped>
-
 .hr {
     margin-top: 80px;
     margin-bottom: 20px;
