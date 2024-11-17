@@ -79,7 +79,7 @@
                 </div>
             </el-row>
 
-            <!-- 商品列表数据 -->
+            <!-- 用户列表数据 -->
             <el-table v-loading="loading" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading"
                 element-loading-background="rgba(0, 0, 0, 0.8)" stripe :data="tableData"
                 style="position:fixed; left:30px;top:160px; font-size: medium; opacity:0.9">

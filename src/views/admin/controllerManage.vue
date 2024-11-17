@@ -615,9 +615,11 @@ export default {
 </script>
 
 <style scoped>
+
 .fouce {
     background-color: #c3ddff;
     box-shadow: 3px 3px 2px #d0d0d0;
+    transition: all 0.9s ease;
 }
 
 .buttonPlus:hover {

@@ -28,7 +28,6 @@ export const pageQuery = async (
       endCreateTime != null &&
       endCreateTime != ""
     ) {
-
       const response = await http.get(
         `${baseUrl}?${
           queryParams.toString() +
@@ -47,81 +46,89 @@ export const pageQuery = async (
 };
 
 // 用户管理新增用户
-export const createUser = async(ruleForm:any)=>{
-  try{
-      const response  = await http.post("/admin/user/save",ruleForm)
-      return response.data
-  }catch(error){
-      
-  }
-}
+export const createUser = async (ruleForm: any) => {
+  try {
+    const response = await http.post("/admin/user/save", ruleForm);
+    return response.data;
+  } catch (error) {}
+};
 
 // 用户管理删除用户
-export const deleteUser = async(id:number)=>{
-  try{
-      const response  = await http.delete(`/admin/user/${id}`)
-      return response.data
-  }catch(error){
-      
-  }
-}
+export const deleteUser = async (id: number) => {
+  try {
+    const response = await http.delete(`/admin/user/${id}`);
+    return response.data;
+  } catch (error) {}
+};
 
 // 用户管理根据id查询用户
-export const getByIdUser = async(id:number)=>{
-  try{
-      const response  = await http.get(`/admin/user/${id}`)
-      return response.data
-  }catch(error){
-      
-  }
-}
+export const getByIdUser = async (id: number) => {
+  try {
+    const response = await http.get(`/admin/user/${id}`);
+    return response.data;
+  } catch (error) {}
+};
 
 // 用户管理修改用户
-export const updateUser = async(user:any)=>{
-  try{
-      const response  = await http.put(`/admin/user/update`,user)
-      return response.data
-  }catch(error){
-      
-  }
-}
+export const updateUser = async (user: any) => {
+  try {
+    const response = await http.put(`/admin/user/update`, user);
+    return response.data;
+  } catch (error) {}
+};
 
 // 用户端根据id查询用户
-export const getByIdUserUser = async(id:number)=>{
-  try{
-      const response  = await http.get(`/user/user/${id}`)
-      return response.data
-  }catch(error){
-      
-  }
-}
+export const getByIdUserUser = async (id: number) => {
+  try {
+    const response = await http.get(`/user/user/${id}`);
+    return response.data;
+  } catch (error) {}
+};
 
 // 用户端修改用户
-export const updateUserUser = async(user:any)=>{
-  try{
-      const response  = await http.put(`/user/user/update`,user)
-      return response.data
-  }catch(error){
-      
-  }
-}
+export const updateUserUser = async (user: any) => {
+  try {
+    const response = await http.put(`/user/user/update`, user);
+    return response.data;
+  } catch (error) {}
+};
 
 // 用户端修改用户收货地址
-export const updateUserAddress = async(user:any)=>{
-  try{
-      const response  = await http.put(`/user/address/update`,user)
-      return response.data
-  }catch(error){
-      
-  }
-}
+export const updateUserAddress = async (user: any) => {
+  try {
+    const response = await http.put(`/user/address/update`, user);
+    return response.data;
+  } catch (error) {}
+};
 
 // 用户端删除用户收货地址
-export const deleteUserAddress = async(id:any)=>{
-  try{
-      const response  = await http.delete(`/user/address/${id}`)
-      return response.data
-  }catch(error){
-      
-  }
-}
+export const deleteUserAddress = async (id: any) => {
+  try {
+    const response = await http.delete(`/user/address/${id}`);
+    return response.data;
+  } catch (error) {}
+};
+
+// 用户注册
+export const registerUser = async (ruleForm: any) => {
+  try {
+    const response = await http.post("/user/register", ruleForm);
+    return response.data;
+  } catch (error) {}
+};
+
+// 忘记密码验证
+export const validateUser = async (ruleForm: any) => {
+  try {
+    const response = await http.post("/user/validate", ruleForm);
+    return response.data;
+  } catch (error) {}
+};
+
+// 重置密码
+export const resetPassword = async (user: any) => {
+  try {
+    const response = await http.put(`/user/reset`, user);
+    return response.data;
+  } catch (error) {}
+};

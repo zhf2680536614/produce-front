@@ -16,6 +16,11 @@ const routes: Array<RouteConfig> = [
     component: () => import("@/views/register.vue"),
   },
   {
+    path: "/forgetpassword",
+    name: "forgetpassword",
+    component: () => import("@/views/forgetPassword.vue"),
+  },
+  {
     path: "/home",
     name: "home",
     component: () => import("@/views/home/indexPage.vue"),

@@ -40,6 +40,7 @@
 
         <hr class="hr" style="width: 100%" id="footer">
         <span class="span">产品展示</span>
+
         <div style="position:relative; left:8px; top:80px;" id="div2">
 
             <el-skeleton style="" :loading="loading" animated :count="3">
@@ -122,14 +123,17 @@
                     </el-card>
                 </template>
             </el-skeleton>
+
         </div>
+
+
     </div>
 </template>
 
 <script>
 import homeTop from '@/components/homeTop.vue';
 import { queryAll, getByIdProducesUser } from '@/api/produces';
-import { queryCategoryUser } from '@/api/category'
+import { queryCategoryUser } from '@/api/category';
 import { getCycleUser, getBoutiqueUser } from '@/api/static';
 
 export default {
@@ -163,6 +167,7 @@ export default {
             },
 
             categorys: '',
+            count: 0
         }
     },
 
@@ -188,6 +193,11 @@ export default {
     },
 
     methods: {
+
+        load() {
+            this.count += 2
+        },
+
         //查询分类
         getCategory() {
             queryCategoryUser().then(

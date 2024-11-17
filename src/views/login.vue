@@ -37,7 +37,7 @@
 
                                 <div style="margin-top:20px;">
                                     <router-link to="/register">没有账号？注册一个</router-link> |
-                                    <router-link to="">忘记密码</router-link>
+                                    <router-link to="/forgetpassword">忘记密码</router-link>
                                 </div>
                             </el-form>
                         </div>
