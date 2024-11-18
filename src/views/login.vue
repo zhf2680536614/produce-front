@@ -33,7 +33,7 @@
                                     <el-input v-model="user.password" show-password />
                                 </el-form-item>
 
-                                <el-button @click="userlogin('user')">Login</el-button>
+                                <el-button class="buttonA" @click="userlogin('user')">Login</el-button>
 
                                 <div style="margin-top:20px;">
                                     <router-link to="/register">没有账号？注册一个</router-link> |
@@ -67,7 +67,7 @@
                                     <el-input v-model="admin.password" show-password />
                                 </el-form-item>
 
-                                <el-button @click="adminlogin('admin')">Login</el-button>
+                                <el-button class="buttonA" @click="adminlogin('admin')">Login</el-button>
                             </el-form>
                         </div>
 
@@ -196,9 +196,21 @@ export default {
 
     }
 }
+
 </script>
 
 <style scoped>
+.buttonA {
+    width: 120px;
+    background-color: rgba(178, 232, 255, 0.8);
+    transition: all 0.9s ease;
+    font-size: 18px;
+}
+
+.buttonA:hover {
+    background-color: rgba(129, 217, 255, 0.8);
+}
+
 @keyframes wave {
     0% {
         top: -1800px;

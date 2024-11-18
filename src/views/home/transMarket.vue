@@ -17,7 +17,7 @@
 
         <!-- 分类销量排名 -->
         <span id="top10">TOP10</span><br><br>
-        <div id="main" style="width: 100%;height:500px;"></div>
+        <div id="main" style="width: 100vw;height:50vh;"></div>
 
         <!-- 产品秒杀 -->
         <hr style="width: 100%" class="hr">
@@ -257,8 +257,6 @@
                         <el-option label="默认排序" value="">
                         </el-option>
                         <el-option label="价格排序" value="1">
-                        </el-option>
-                        <el-option label="销量排序" value="2">
                         </el-option>
                         <el-option label="库存排序" value="3">
                         </el-option>

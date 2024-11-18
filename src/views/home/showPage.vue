@@ -180,14 +180,12 @@ export default {
         getCycleUser().then(
             res => {
                 this.imgs = res.data
-                console.log(res.data)
             }
         )
 
         getBoutiqueUser().then(
             res => {
                 this.imgs1 = res.data
-                console.log(res.data)
             }
         )
     },

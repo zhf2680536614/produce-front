@@ -41,11 +41,6 @@ const routes: Array<RouteConfig> = [
         component: () => import("@/views/home/transMarket.vue"),
       },
       {
-        path: "todaynews",
-        name: "todaynews",
-        component: () => import("@/views/home/todayNews.vue"),
-      },
-      {
         path: "recordstrans",
         name: "recordstrans",
         component: () => import("@/views/home/recordsTrans.vue"),

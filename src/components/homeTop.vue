@@ -12,8 +12,6 @@
             <span class="routerspan">
                 <router-link to="/home/transmarket">交易市场</router-link></span>
             <span class="routerspan">
-                <router-link to="/home/todaynews">今日要闻</router-link></span>
-            <span class="routerspan">
                 <router-link to="/home/recordstrans">交易信息</router-link></span>
             <span class="routerspan">
                 <router-link to="/home/about">关于我们</router-link></span>
@@ -433,7 +431,7 @@ button {
     left: 380px;
     top: 10px;
     height: 0px;
-    width: 800px;
+    width: 45vw;
     z-index: 100;
     padding-top: 10px;
 }
