@@ -16,7 +16,7 @@
 
         <!-- 轮播图 -->
         <hr class="hr" style="width: 100%" id="top">
-        <el-carousel :interval="4000" type="card" height="200px" id="carousel">
+        <el-carousel :interval="4000" type="card" height="300px" id="carousel">
             <el-carousel-item v-for="item in imgs" :key="item.id">
                 <img :src="item.image" width="100%">
             </el-carousel-item>
@@ -263,14 +263,16 @@ export default {
 }
 
 .span {
+    display: block;
     font-size: 40px;
-    background-color: rgb(186, 255, 173);
+    background-color: rgb(216, 255, 208);
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
     width: 400px;
     height: 80px;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-top: 10px;
+    margin-left:650px;
+    margin-bottom: 10px;
 }
 
 .aside button {
@@ -331,9 +333,10 @@ export default {
 }
 
 #div1 {
-    background-image: radial-gradient(ellipse farthest-corner at 0 0, rgb(240, 255, 239), rgb(249, 249, 230));
+    background-color: rgb(237, 255, 249);
     display: flex;
-    height: 610px;
+    height: 100vw;
+    height: 60vh;
     overflow: hidden;
     justify-content: center;
     align-items: center;
@@ -343,7 +346,6 @@ export default {
 
 #div2 {
     border-radius: 5px;
-    margin-top: 10px;
 }
 
 .container {
@@ -359,6 +361,7 @@ export default {
     width: 435px;
     height: 244.5px;
     background-color: aquamarine;
+    background-size: cover;
     border-radius: 10px;
     display: flex;
     justify-content: center;

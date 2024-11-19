@@ -173,7 +173,7 @@ button:hover {
 
 .card1 img {
     position: relative;
-    height: 130%;
+    height: 100%;
 }
 
 .card1:hover {

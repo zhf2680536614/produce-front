@@ -1,26 +1,18 @@
 <template>
     <div>
         <el-header style="border-radius: 5px;">
-            <img class="logo" src="../assets/logo.png" width="50" height="50" />
+            <img class="logo" src="../assets/logo.jpg"
+                style="width:100px; height:50px; opacity: 1; border-radius: 50px;z-index:-999;" />
 
-            <h3 style="position:fixed;
-            top:-10px;
-            left:570px;
-            font-size:30px;
-            font-weight: 500px;
-            background: rgba(64, 158, 255,0.5);
-            border-radius: 5px;
-            box-shadow:5px 5px 2px rgba(64, 158, 255,0.9);
-            padding-left:60px;
-            padding-right: 60px;
-            padding-top:2px;
-            padding-bottom: 2px;">WEB极客·农产品交易系统管理端</h3>
-
+            <h3 style="position:fixed; top:-10px; left:570px; font-size:30px; font-weight: 500px; 
+            background-color: rgba(64,158, 255,0.5); border-radius: 5px; 
+                box-shadow:5px 5px 2px rgba(64, 158, 255,0.9); padding-left:60px;
+                padding-right: 60px; padding-top:2px; padding-bottom: 2px;">WEB极客·农产品交易系统管理端</h3>
+            
             <span style="position:fixed;
             left:1250px;
             top:25px;">
-                <el-statistic ref="statistic" format="HH:mm:ss" :value="deadline4" title="距离明日："
-                    time-indices>
+                <el-statistic ref="statistic" format="HH:mm:ss" :value="deadline4" title="距离明日：" time-indices>
                 </el-statistic>
             </span>
             <span style="

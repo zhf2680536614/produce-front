@@ -3,7 +3,8 @@
 
         <div id="hometop"></div>
 
-        <img class="logo" src="../assets/logo.png" width="50" height="50" />
+        <img class="logo" src="../assets/logo.jpg"
+            style="width:100px; height:50px; opacity: 1; border-radius: 50px;" />
         <nav id="centernav">
             <span class="routerspan">
                 <router-link to="/home/homepage">商城首页</router-link></span>

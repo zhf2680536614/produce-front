@@ -5,8 +5,8 @@
             <img id="loginpng" src="../assets/login.jpeg" style="width:2000px; opacity: 0.6;">
         </div>
         <!-- header -->
-        <el-header style="position:fixed; top:30px; left:530px;">
-            <img class="logo" src="../assets/logo.png" style="width:80px; height:80px; border-radius: 50%;" />
+        <el-header style="position:fixed; top:20px; left:530px;">
+            <img class="logo" src="../assets/logo.jpg" style="width:100px; height:50px; opacity: 1; border-radius: 50px;" />
             <h1>
                 <h2>
                     [&nbsp;&nbsp;&nbsp;WEB极客·农产品交易系统&nbsp;&nbsp;&nbsp;]

@@ -25,7 +25,7 @@
       </div>
     </div>
 
-    <img class="img1" src="../../assets/about.jpg" alt="">
+    <img class="img1" src="../../assets/print.jpg" alt="">
     <div class="div1">关于我们</div>
     <div class="div2">
       <div>about us</div>
@@ -36,10 +36,10 @@
       </div>
     </div>
 
-    <img class="footer" src="../../assets/about.jpg" alt="">
-    <img class="footer" src="../../assets/about.jpg" alt="">
-    <img class="footer" src="../../assets/about.jpg" alt="">
-    <img class="footer" src="../../assets/about.jpg" alt="">
+    <img class="footer" src="../../assets/print.jpeg" alt="">
+    <img class="footer" src="../../assets/print.jpeg" alt="">
+    <img class="footer" src="../../assets/print.jpeg" alt="">
+    <img class="footer" src="../../assets/print.jpeg" alt="">
 
     <div class="footerfont1">
       <div class="footerfonta">2024</div>
@@ -99,7 +99,7 @@ export default {
   width: 98vw;
   height: 1000px;
   z-index: -999;
-  background-color: rgb(250, 246, 241);
+  background-color: rgb(243, 255, 241);
 }
 
 .footerfont1 {

@@ -3,6 +3,10 @@
     <div>
         <home-top />
 
+        <div class="index">
+
+        </div>
+
         <!-- 侧边栏 -->
         <div style="z-index:10;position:fixed;left:20px;top:230px;" class="aside">
             <button @click="scrollToDiv('top10')">回到顶部</button>
@@ -1847,6 +1851,15 @@ export default {
 </script>
 
 <style scoped>
+.index{
+    position: fixed;
+    background-color: rgb(246, 255, 245);
+    height: 100vh;
+    width: 100vw;
+    z-index:-999;
+    top:10px;
+}
+
 .producesPlus {
     transition: all 1s ease;
 }
