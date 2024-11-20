@@ -54,7 +54,7 @@
               <el-descriptions-item label="产品名称">{{ item.name }}</el-descriptions-item>
               <el-descriptions-item label="产品分类">{{ processCategory(item.category) }}</el-descriptions-item>
               <el-descriptions-item label="单价">{{ item.unitPrice }}</el-descriptions-item>
-              <el-descriptions-item label="库存(kg)">{{ item.weight }}</el-descriptions-item>
+              <el-descriptions-item label="库存(kg)">{{ (item.weight).toFixed(2) }}</el-descriptions-item>
               <el-descriptions-item label="状态">
                 <span v-if="item.status === 1" style="color: green;">上架中</span>
                 <span v-if="item.status === 2" style="color: blue;">已下架</span>

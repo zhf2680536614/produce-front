@@ -96,7 +96,7 @@
                                                 <i class="el-icon-office-building"></i>
                                                 库存(kg)
                                             </template>
-                                            {{ marketProduces.weight }}
+                                            {{ (marketProduces.weight).toFixed(2) }}
                                         </el-descriptions-item>
                                         <el-descriptions-item>
                                             <template slot="label">
@@ -266,9 +266,10 @@
                         </el-option>
                     </el-select>
                 </el-col>
-                <el-button icon="el-icon-caret-top" style="position:absolute;top:0px;left:820px;"
+                <el-button icon="el-icon-caret-top" style="position:absolute;top:0px;left:820px;background-color:azure;"
                     @click="sc('1')">从低到高</el-button>
-                <el-button icon="el-icon-caret-bottom" style="position:absolute;top:25px;left:810px;"
+                <el-button icon="el-icon-caret-bottom"
+                    style="position:absolute;top:25px;left:810px;background-color:azure;"
                     @click="sc('2')">从高到低</el-button>
                 <!-- 按钮 -->
                 <div style="display:inline-block;position:relative;top:0px;left:10px;">
@@ -601,14 +602,20 @@
                         <el-card :body-style="{ padding: '0px', marginBottom: '1px' }" v-for="item in lists"
                             :key="item.id" style="display:inline-block;margin:10px;width:340px;height:440px;">
                             <img :src="item.image" class="image multi-content" style="width:340px;height:340px;" />
-                            <div style="padding: 14px;">
-                                <el-tag style="position:relative;left:-60px;top:-15px;">种类: {{ item.category }}</el-tag>
-                                <el-tag style="position:relative;left:-120px;top:30px;" type="success">单价: {{
-                                    item.unitPrice }}</el-tag>
-                                <span style="position:relative;left:-50px;font-weight: 100;font-size:medium">{{
-                                    item.name }}</span>
+                            <div style="">
+                                <div style="display: inline-block;"><el-tag style="width:80px;margin-right: 5px;">{{
+                                    item.category
+                                        }}</el-tag></div>
+                                <div style="display: inline-block;margin-bottom: 5px;"><el-tag style="width:80px;"
+                                        type="success">单价: {{
+                                            item.unitPrice }}</el-tag></div>
+
+                                <div style="font-weight: 100;font-size:medium">{{
+                                    item.name }}
+                                </div>
+
                                 <div class="bottom card-header">
-                                    <br>
+
                                     <el-popover placement="right" width="600" trigger="click">
                                         <el-descriptions class="margin-top" title="产品详细" :column="1" border>
                                             <el-descriptions-item>
@@ -651,7 +658,7 @@
                                                     <i class="el-icon-office-building"></i>
                                                     库存(kg)
                                                 </template>
-                                                {{ marketProduces.weight }}
+                                                {{ (marketProduces.weight).toFixed(2) }}
                                             </el-descriptions-item>
                                             <el-descriptions-item>
                                                 <template slot="label">
@@ -1851,13 +1858,13 @@ export default {
 </script>
 
 <style scoped>
-.index{
+.index {
     position: fixed;
     background-color: rgb(246, 255, 245);
     height: 100vh;
     width: 100vw;
-    z-index:-999;
-    top:10px;
+    z-index: -999;
+    top: 10px;
 }
 
 .producesPlus {
@@ -1883,14 +1890,17 @@ export default {
 #top10,
 #span2,
 #span3 {
-    font-size: 40px;
-    background-color: rgb(200, 255, 237);
+    display: block;
+    font-size: 30px;
+    background-color: rgba(216, 255, 208, 0.6);
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
-    width: 200px;
-    height: 50px;
-    padding-left: 20px;
-    padding-right: 20px;
+    width: 300px;
+    height: 60px;
+    padding-top: 10px;
+    margin-left: 650px;
+    margin-bottom: 10px;
+    font-weight: 600;
 }
 
 * {
