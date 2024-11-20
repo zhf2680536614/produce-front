@@ -30,9 +30,8 @@
             <router-link to="/admin/usermanage">用户管理</router-link>|
             <router-link to="/admin/producesmanage">产品管理</router-link>|
             <router-link to="/admin/categorymanage">分类管理</router-link>|
-            <router-link to="/admin/recordsmanage">订单管理</router-link>
+            <router-link to="/admin/recordsmanage">订单管理</router-link>|
         </nav>
-
         <router-view />
     </div>
 </template>
@@ -42,7 +41,7 @@
 export default ({
     name: 'firstTop',
     components: {
-
+       
     },
     data() {
         return {

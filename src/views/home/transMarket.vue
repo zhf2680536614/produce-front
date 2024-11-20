@@ -43,16 +43,20 @@
                     <el-card :body-style="{ padding: '0px', marginBottom: '1px' }" v-for="item in listsPlus"
                         :key="item.id" style="display:inline-block;margin:10px;width:340px;height:440px;">
                         <img :src="item.image" class="image multi-content" style="width:340px;height:340px;" />
-                        <div style="padding: 14px;">
-                            <span style="position:relative;left:60px;top:0px;">{{ item.name }}</span>
-                            <el-tag style="position:relative;left:-100px;top:-10px;"><span
-                                    style="text-decoration: line-through;font-size: 18px;">原价: {{ item.unitPrice
-                                    }}</span></el-tag>
-                            <el-tag type="success" style="position:relative;left:-160px;top:40px;"><span
-                                    style="font-size: 18px;">折扣价:
-                                    {{ Number(item.unitPrice)
-                                        * 0.8
-                                    }}</span></el-tag>
+                        <div>
+                            <div style="display: inline-block;margin-right: 5px;">
+                                <el-tag style="width: 100px;"><span
+                                        style="text-decoration: line-through;font-size: 18px;">原价: {{ item.unitPrice
+                                        }}</span></el-tag>
+                            </div>
+                            <div style="display: inline-block">
+                                <el-tag type="success" style="width: 120px;"><span
+                                        style="font-size: 18px;">折扣价:
+                                        {{ (Number(item.unitPrice)
+                                            * 0.8).toFixed(2)
+                                        }}</span></el-tag>
+                            </div><br>
+                            <div style="">{{ item.name }}</div>
                             <div class="bottom card-header">
                                 <el-popover placement="right" width="600" trigger="click">
                                     <el-descriptions class="margin-top" title="产品详细" :column="1" border>
@@ -196,7 +200,7 @@
                                                     <i class="el-icon-office-building"></i>
                                                     总价
                                                 </template>
-                                                {{ ordersDetails.amount }}
+                                                {{ Number(ordersDetails.amount * 0.8).toFixed(2) }}
                                             </el-descriptions-item>
                                         </el-descriptions>
                                         <span>备注</span>
@@ -1725,17 +1729,8 @@ export default {
         //清空表单
         emptyForm() {
             this.marketProduces.id = ''
-            this.marketProduces.name = ''
-            this.marketProduces.origin = ''
-            this.marketProduces.category = ''
-            this.marketProduces.status = ''
+            this.resetForm('marketProduces')
             this.marketProduces.image = ''
-            this.marketProduces.description = ''
-            this.marketProduces.unitPrice = ''
-            this.marketProduces.userId = ''
-            this.marketProduces.username = ''
-            this.marketProduces.createTime = ''
-            this.marketProduces.weight = ''
         },
 
         //升序降序
