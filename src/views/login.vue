@@ -42,7 +42,7 @@
                             </el-form>
                         </div>
 
-                        <div style="position:fixed; top:259px;left:840px;">
+                        <div style="position:fixed; top:269px;left:870px;">
                             <img src="../assets/userlogin.jpeg"
                                 style="width: 200px; height:335px; border-radius: 10px;">
                         </div>
@@ -75,7 +75,7 @@
                             <h3>用户登录</h3>
                         </div>
 
-                        <div style="position:fixed; top:259px;left:560px;">
+                        <div style="position:fixed; top:269px;left:580px;">
                             <img src="../assets/adminlogin.jpeg"
                                 style="width: 200px; height:335px; border-radius: 10px;">
                         </div>

@@ -24,13 +24,13 @@
         </div>
 
         <div class="date">
-            <el-button class="button" :class="{ fouce: 1 == fouce }" style="position: fixed;left:520px;top:130px;"
+            <el-button class="button" :class="{ fouce: 1 == fouce }" style="position: fixed;left:540px;top:130px;"
                 @click="all">全部</el-button>
-            <el-button class="button" :class="{ fouce: 2 == fouce }" style="position: fixed;left:795px;top:130px;"
+            <el-button class="button" :class="{ fouce: 2 == fouce }" style="position: fixed;left:815px;top:130px;"
                 @click="week">近一周</el-button>
-            <el-button class="button" :class="{ fouce: 3 == fouce }" style="position: fixed;left:1080px;top:130px;"
+            <el-button class="button" :class="{ fouce: 3 == fouce }" style="position: fixed;left:1115px;top:130px;"
                 @click="months">近1个月</el-button>
-            <el-button class="button" :class="{ fouce: 4 == fouce }" style="position: fixed;left:1365px;top:130px;"
+            <el-button class="button" :class="{ fouce: 4 == fouce }" style="position: fixed;left:1390px;top:130px;"
                 @click="threeMonths">近3个月</el-button>
         </div>
 
@@ -658,7 +658,7 @@ export default {
 }
 
 .button {
-    width: 270px;
+    width: 275px;
     height: 30px;
     font-size: larger;
     cursor: pointer;

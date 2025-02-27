@@ -50,10 +50,18 @@
           <div v-for="item in marketProduces" :key="item.id">
             <img :src="item.image" style="width: 110px; height: 110px;display: inline-block;margin-right: 10px;">
             <el-descriptions :column="4" border style="display: inline-block;width: 1450px;">
-              <el-descriptions-item label="创建时间">{{ item.createTime }}</el-descriptions-item>
-              <el-descriptions-item label="产品名称">{{ item.name }}</el-descriptions-item>
-              <el-descriptions-item label="产品分类">{{ processCategory(item.category) }}</el-descriptions-item>
-              <el-descriptions-item label="单价">{{ item.unitPrice }}</el-descriptions-item>
+              <el-descriptions-item label="创建时间"><span style="display: inline-block;width: 10vw;">{{ item.createTime
+                  }}</span></el-descriptions-item>
+              <el-descriptions-item label="产品名称"><span style="display: inline-block;width: 10vw;">{{ item.name
+                  }}</span></el-descriptions-item>
+              <el-descriptions-item label="产品分类"><span style="display: inline-block;width: 10vw;">
+                  {{ processCategory(item.category) }}
+                </span>
+              </el-descriptions-item>
+              <el-descriptions-item label="单价"><span style="display: inline-block;width: 10vw;">
+                  {{ item.unitPrice }}
+                </span>
+              </el-descriptions-item>
               <el-descriptions-item label="库存(kg)">{{ (item.weight).toFixed(2) }}</el-descriptions-item>
               <el-descriptions-item label="状态">
                 <span v-if="item.status === 1" style="color: green;">上架中</span>
@@ -136,10 +144,18 @@
           <div v-for="item in tableData" :key="item.id">
             <img :src="item.image" style="width: 140px; height: 140px;display: inline-block;margin-right: 10px;">
             <el-descriptions :column="4" border style="display: inline-block;width: 1450px;height:150px;">
-              <el-descriptions-item label="创建时间">{{ item.createTime }}</el-descriptions-item>
-              <el-descriptions-item label="订单号">{{ item.orderNumber }}</el-descriptions-item>
-              <el-descriptions-item label="产品名称">{{ item.produceName }}</el-descriptions-item>
-              <el-descriptions-item label="单价">{{ item.unitPrice }}</el-descriptions-item>
+              <el-descriptions-item label="创建时间"><span style="display: inline-block;width: 10vw;">{{ item.createTime
+                  }}</span>
+              </el-descriptions-item>
+              <el-descriptions-item label="订单号"><span style="display: inline-block;width: 18vw;">{{ item.orderNumber
+                  }}</span>
+              </el-descriptions-item>
+              <el-descriptions-item label="产品名称"><span style="display: inline-block;width: 10vw;">{{ item.produceName
+                  }}</span>
+              </el-descriptions-item>
+              <el-descriptions-item label="单价"><span style="display: inline-  block;width: 3vw;">{{ item.unitPrice
+                  }}</span>
+              </el-descriptions-item>
               <el-descriptions-item label="重量">{{ item.produceWeight }}</el-descriptions-item>
               <el-descriptions-item label="总价">{{ item.amount }}</el-descriptions-item>
               <el-descriptions-item label="收货人姓名">{{ item.consigneeName }}</el-descriptions-item>
